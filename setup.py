@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.0.0",
     author="Vishnuvardhan Kumar",
     author_email="vishnukumar1997@gmail.com",
-    description="Automate your repetitive git tasks easily with Python",
+    description="Quickstarts your Python projects with VC integration",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -19,7 +19,6 @@ setuptools.setup(
           ]
       },
     classifiers=(
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

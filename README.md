@@ -1,6 +1,6 @@
 # overlord
 
-Automate your repetitive git tasks easily with Python
+Quickstart your Python project with a single handy command.
 
 `pip install overlord`
 
