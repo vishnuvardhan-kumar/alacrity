@@ -1,6 +1,7 @@
 # alacrity
 
 [![PyPI version](https://badge.fury.io/py/alacrity.svg)](https://badge.fury.io/py/alacrity)
+[![Build Status](https://travis-ci.org/vishnuvardhan-kumar/alacrity.svg?branch=master)](https://travis-ci.org/vishnuvardhan-kumar/alacrity)
 [![CodeFactor](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/badge/master)](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/overview/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
@@ -9,7 +10,57 @@ Quickstart your Python project with a single handy command.
 
 `pip install alacrity`
 
-Call the module, answer some questions interactively, and poof, your package structure is ready.
+To use alacrity, just type in a terminal:
+
+`alacrity`
+
+Answer some questions interactively, and poof, your package structure is ready.
 
 Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
 
+A sample alacrity flow:
+
+```
+ Z:\> alacrity
+ Enter the name of the package:
+ my_package
+ Enter the initial version:
+ 0.1.0
+ Enter a brief description:
+ My new Python package!
+ Enter author name:
+ John Doe
+ Enter author email:
+ johndoe@example.com
+ Choose a license: [mit/apache/gpl]
+ mit
+ Enter year for license:
+ 2018
+ Package my_package was created successfully.
+ 
+ Z:\> tree /f mypackage
+mypackage
+│   .gitignore
+│   LICENSE
+│   Makefile
+│   MANIFEST.in
+│   README.rst
+│   requirements.txt
+│   setup.py
+│
+├───docs
+│       conf.py
+│       index.rst
+│       make.bat
+│       Makefile
+│
+├───my_package
+│       core.py
+│       lib.py
+│       __init__.py
+│
+└───tests
+        test_lib.py
+        __init__.py
+
+```
