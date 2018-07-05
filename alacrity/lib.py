@@ -52,7 +52,7 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error("The path %s could not be removed" % path)
+        logging.error("The path %s could not be removed", path)
 
 
 def create_package_structure(package_name):
@@ -99,7 +99,7 @@ def create_docs_directory(path):
             fobj.close()
         create_makefile('{}/docs'.format(path))
     except OSError:
-        logging.error("%s/docs directory already exists" % path)
+        logging.error("%s/docs directory already exists", path)
         logging.error("Enable clean_make for complete reconstruction")
 
 
