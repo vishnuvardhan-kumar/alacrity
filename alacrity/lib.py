@@ -52,7 +52,7 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error("The path {} could not be removed".format(path))
+        logging.error("The path %s could not be removed" % path)
 
 
 def create_package_structure(package_name):
@@ -92,14 +92,14 @@ def create_docs_directory(path):
         os.mkdir('{}/docs'.format(path))
         # Create conf.py in docs directory
         with open('{}/docs/conf.py'.format(path), 'w') as fobj:
-            pass
+            fobj.close()
         with open('{}/docs/index.rst'.format(path), 'w') as fobj:
-            pass
+            fobj.close()
         with open('{}/docs/make.bat'.format(path), 'w') as fobj:
-            pass
+            fobj.close()
         create_makefile('{}/docs'.format(path))
     except OSError:
-        logging.error("{}/docs directory already exists".format(path))
+        logging.error("%s/docs directory already exists" % path)
         logging.error("Enable clean_make for complete reconstruction")
 
 
@@ -205,7 +205,7 @@ def create_makefile(path):
     """" Creates a MAKEFILE in the path"""
     try:
         with open('{}/Makefile'.format(path), 'w') as fobj:
-            pass
+            fobj.close()
     except IOError:
         logging.error(" Makefile creation failed.")
 
