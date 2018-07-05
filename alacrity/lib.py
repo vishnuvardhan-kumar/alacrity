@@ -1,6 +1,6 @@
 from __future__ import print_function
 from __future__ import division, absolute_import
-from alacrity.starters.read_files import *
+from clint.textui import colored
 
 import logging
 import os
@@ -36,6 +36,17 @@ def rebuild_persistence():
 
     except IOError:
         logging.error("The persist.ini file could not be created.")
+
+
+def read_from_paths(rel_path, abs_path):
+    """ Utility function to read from multiple paths"""
+    try:
+        with open(rel_path, "r") as man:
+            doc = man.read()
+    except IOError:
+        with open(abs_path, "r") as man:
+            doc = man.read()
+    return doc
 
 
 def remove_package(path):

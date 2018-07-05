@@ -20,7 +20,6 @@ alacrity/starters/Makefile
 alacrity/starters/README.rst
 alacrity/starters/__init__.py
 alacrity/starters/gitignore.txt
-alacrity/starters/read_files.py
 alacrity/starters/requirements.txt
 alacrity/starters/setup.py
 alacrity/tests/__init__.py
