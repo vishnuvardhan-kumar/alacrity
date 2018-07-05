@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: alacrity
+Version: 0.1.0
+Summary: Quickstart your Python development with CLI package templating
+Home-page: UNKNOWN
+Author: Vishnuvardhan Kumar
+Author-email: vishnukumar1997@gmail.com
+License: UNKNOWN
+Description: # alacrity
+        
+        Quickstart your Python project with a single handy command.
+        
+        `pip install alacrity`
+        
+        Call the module, answer some questions interactively, and poof, your package structure is ready.
+        
+        Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
+        
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
