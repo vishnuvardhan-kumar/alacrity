@@ -18,19 +18,7 @@ setuptools.setup(
               'alacrity = alacrity.main:main'
           ]
       },
-    data_files=[('starters', ['alacrity/starters/gitignore.txt',
-                              'alacrity/starters/APACHE2_LICENSE',
-                              'alacrity/starters/GPL_LICENSE',
-                              'alacrity/starters/MIT_LICENSE',
-                              'alacrity/starters/Makefile',
-                              'alacrity/starters/MANIFEST.in',
-                              'alacrity/starters/README.rst',
-                              'alacrity/starters/requirements.txt',
-                              'alacrity/starters/setup.py']
-                 ),
-                ('', ['README.md', 'LICENSE',
-                      'requirements.txt'])
-                ],
+    include_package_data=True,
     classifiers=(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",

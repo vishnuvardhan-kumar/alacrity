@@ -1,7 +1,7 @@
 from __future__ import print_function
 from __future__ import division, absolute_import
+from alacrity.starters.read_files import *
 
-from clint.textui import colored
 import logging
 import os
 import shutil
@@ -10,6 +10,8 @@ import sys
 string_input = input
 if sys.version_info.major == 2:
     string_input = raw_input
+
+filepath = os.path.abspath(__file__)
 
 
 def rebuild_persistence():
@@ -34,17 +36,6 @@ def rebuild_persistence():
 
     except IOError:
         logging.error("The persist.ini file could not be created.")
-
-
-def read_from_paths(rel_path, abs_path):
-    """ Utility function to read from multiple paths"""
-    try:
-        with open(rel_path, "r") as man:
-            doc = man.read()
-    except IOError:
-        with open(abs_path, "r") as man:
-            doc = man.read()
-    return doc
 
 
 def remove_package(path):
@@ -125,8 +116,9 @@ def create_tests_package(path):
 def create_git_ignore(path):
     """" Creates a Python .gitignore file in the path"""
 
-    abs_path = "alacrity/starters/gitignore.txt"
-    rel_path = "starters/gitignore.txt"
+    abs_path = os.path.join(filepath, "../starters/gitignore.txt")
+    rel_path = os.path.join(filepath, "../gitignore.txt")
+
     try:
         with open(rel_path, "r") as git_read:
             git_ignore = git_read.read()
@@ -144,8 +136,9 @@ def create_git_ignore(path):
 def create_manifest(path):
     """" Creates a MANIFEST.in file in the path"""
 
-    abs_path = "alacrity/starters/MANIFEST.in"
-    rel_path = "starters/MANIFEST.in"
+    abs_path = os.path.join(filepath, "../starters/MANIFEST.in")
+    rel_path = os.path.join(filepath, "../MANIFEST.in")
+
     try:
         with open(rel_path, "r") as man:
             data = man.read()
@@ -163,8 +156,9 @@ def create_manifest(path):
 def create_requirements(path):
     """" Creates a requirements.txt file in the path"""
 
-    abs_path = "alacrity/starters/requirements.txt"
-    rel_path = "starters/requirements.txt"
+    abs_path = os.path.join(filepath, "../starters/requirements.txt")
+    rel_path = os.path.join(filepath, "../requirements.txt")
+
     try:
         with open(rel_path, "r") as man:
             data = man.read()
@@ -182,8 +176,9 @@ def create_requirements(path):
 def create_readme(path):
     """" Creates a README.rst file in the path"""
 
-    abs_path = "alacrity/starters/README.rst"
-    rel_path = "starters/README.rst"
+    abs_path = os.path.join(filepath, "../starters/README.rst")
+    rel_path = os.path.join(filepath, "../README.rst")
+
     try:
         with open(rel_path, "r") as man:
             data = man.read()
@@ -227,8 +222,8 @@ def create_setup(path):
     print(colored.green("Enter author email:"))
     author_email = string_input()
 
-    abs_path = "alacrity/starters/setup.py"
-    rel_path = "starters/setup.py"
+    abs_path = os.path.join(filepath, "../starters/setup.py")
+    rel_path = os.path.join(filepath, "../setup.py")
 
     try:
         with open(rel_path, "r") as man:
@@ -256,8 +251,8 @@ def create_setup(path):
 def mit_lic(path, name, year):
     """ Create a MIT license """
 
-    abs_path = "alacrity/starters/MIT_LICENSE"
-    rel_path = "starters/MIT_LICENSE"
+    abs_path = os.path.join(filepath, "../starters/MIT_LICENSE")
+    rel_path = os.path.join(filepath, "../MIT_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -274,8 +269,8 @@ def mit_lic(path, name, year):
 def apa_lic(path, name, year):
     """ Create an Apache2 license """
 
-    abs_path = "alacrity/starters/APACHE2_LICENSE"
-    rel_path = "starters/APACHE2_LICENSE"
+    abs_path = os.path.join(filepath, "../starters/APACHE2_LICENSE")
+    rel_path = os.path.join(filepath, "../APACHE2_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -292,8 +287,8 @@ def apa_lic(path, name, year):
 def gpl_lic(path):
     """ Create a GPL license """
 
-    abs_path = "alacrity/starters/GPL_LICENSE"
-    rel_path = "starters/GPL_LICENSE"
+    abs_path = os.path.join(filepath, "../starters/GPL_LICENSE")
+    rel_path = os.path.join(filepath, "../GPL_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
