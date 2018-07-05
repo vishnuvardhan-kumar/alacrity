@@ -6,6 +6,8 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 
+### Disclaimer : This is an initial build and almost certainly will break, install at your own caution.
+
 Quickstart your Python project with a single handy command.
 
 `pip install alacrity`
