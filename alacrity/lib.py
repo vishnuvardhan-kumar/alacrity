@@ -36,6 +36,17 @@ def rebuild_persistence():
         logging.error("The persist.ini file could not be created.")
 
 
+def read_from_paths(rel_path, abs_path):
+    """ Utility function to read from multiple paths"""
+    try:
+        with open(rel_path, "r") as man:
+            doc = man.read()
+    except IOError:
+        with open(abs_path, "r") as man:
+            doc = man.read()
+    return doc
+
+
 def remove_package(path):
     """" Clear the Python package in the given path for testing. """
     try:
@@ -242,77 +253,74 @@ def create_setup(path):
     return author
 
 
+def mit_lic(path, name, year):
+    """ Create a MIT license """
+
+    abs_path = "alacrity/starters/MIT_LICENSE"
+    rel_path = "starters/MIT_LICENSE"
+
+    data = read_from_paths(rel_path, abs_path)
+
+    data = data.replace('[@fullname]', name)
+    data = data.replace('[@year]', year)
+
+    try:
+        with open("{}/LICENSE".format(path), "w") as fobj:
+            fobj.write(data)
+    except IOError:
+        logging.error(" LICENSE creation failed.")
+
+
+def apa_lic(path, name, year):
+    """ Create an Apache2 license """
+
+    abs_path = "alacrity/starters/APACHE2_LICENSE"
+    rel_path = "starters/APACHE2_LICENSE"
+
+    data = read_from_paths(rel_path, abs_path)
+
+    data = data.replace('[@fullname]', name)
+    data = data.replace('[@year]', year)
+
+    try:
+        with open("{}/LICENSE".format(path), "w") as fobj:
+            fobj.write(data)
+    except IOError:
+        logging.error(" LICENSE creation failed.")
+
+
+def gpl_lic(path):
+    """ Create a GPL license """
+
+    abs_path = "alacrity/starters/GPL_LICENSE"
+    rel_path = "starters/GPL_LICENSE"
+
+    data = read_from_paths(rel_path, abs_path)
+
+    try:
+        with open("{}/LICENSE".format(path), "w") as fobj:
+            fobj.write(data)
+    except IOError:
+        logging.error(" LICENSE creation failed.")
+
+
 def create_license(path, full_name):
     """" Prompt user for choice of license and create"""
 
     print(colored.green("Choose a license: [mit/apache/gpl3]"))
-    license = string_input()
+    license_name = string_input()
 
     fullname = full_name
 
     print(colored.green("Enter year for license:"))
     year = string_input()
 
-    if license == 'mit':
-
-        abs_path = "alacrity/starters/MIT_LICENSE"
-        rel_path = "starters/MIT_LICENSE"
-
-        try:
-            with open(rel_path, "r") as man:
-                data = man.read()
-        except IOError:
-            with open(abs_path, "r") as man:
-                data = man.read()
-
-        data = data.replace('[@fullname]', fullname)
-        data = data.replace('[@year]', year)
-
-        try:
-            with open("{}/LICENSE".format(path), "w") as fobj:
-                fobj.write(data)
-        except IOError:
-            logging.error(" LICENSE creation failed.")
-
-    elif license == 'apache':
-
-        abs_path = "alacrity/starters/APACHE2_LICENSE"
-        rel_path = "starters/APACHE2_LICENSE"
-
-        try:
-            with open(rel_path, "r") as man:
-                data = man.read()
-        except IOError:
-            with open(abs_path, "r") as man:
-                data = man.read()
-
-        data = data.replace('[@fullname]', fullname)
-        data = data.replace('[@year]', year)
-
-        try:
-            with open("{}/LICENSE".format(path), "w") as fobj:
-                fobj.write(data)
-        except IOError:
-            logging.error(" LICENSE creation failed.")
-
-    elif license == 'gpl3':
-
-        abs_path = "alacrity/starters/GPL_LICENSE"
-        rel_path = "starters/GPL_LICENSE"
-
-        try:
-            with open(rel_path, "r") as man:
-                data = man.read()
-        except IOError:
-            with open(abs_path, "r") as man:
-                data = man.read()
-
-        try:
-            with open("{}/LICENSE".format(path), "w") as fobj:
-                fobj.write(data)
-        except IOError:
-            logging.error(" LICENSE creation failed.")
-
+    if license_name == 'mit':
+        mit_lic(path, fullname, year)
+    elif license_name == 'apache':
+        apa_lic(path, fullname, year)
+    elif license_name == 'gpl3':
+        gpl_lic(path)
     else:
         logging.error(" Invalid license name.")
         logging.info(" Skipping LICENSE creation")
