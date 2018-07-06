@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: alacrity
-Version: 0.1.1
+Version: 0.1.2
 Summary: Quickstart your Python development with CLI package templating
 Home-page: UNKNOWN
 Author: Vishnuvardhan Kumar
@@ -13,8 +13,6 @@ Description: # alacrity
         [![CodeFactor](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/badge/master)](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/overview/master)
         [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
         
-        
-        ### Disclaimer : This is an initial build and almost certainly will break, install at your own caution.
         
         Quickstart your Python project with a single handy command.
         
