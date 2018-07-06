@@ -21,12 +21,15 @@ def rebuild_persistence():
     options = {'invert': False,
                'build': False}
 
+    # Congregated persistence path
+    persist_path = os.path.join(filepath, 'persist.ini')
+
     # Ensure that persist.ini does not exist
-    if os.path.isfile('persist.ini'):
-        os.remove('persist.ini')
+    if os.path.isfile(persist_path):
+        os.remove(persist_path)
 
     try:
-        with open("persist.ini", "w") as file_object:
+        with open(persist_path, "w") as file_object:
 
             # Write main section to ini
             file_object.write('[main]\n')
