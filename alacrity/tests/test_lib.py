@@ -1,13 +1,25 @@
 # Unittests for the lib.py functions to be placed here
 
 import unittest
+from alacrity import lib
+import os
+
+filepath = os.path.abspath(__file__)
 
 
 class TestParser(unittest.TestCase):
     """ Unittests for alacrity/lib.py """
 
     def test_rebuild_persistence(self):
-        self.assertTrue(True)
+        # Test default values
+        self.path = os.path.join(filepath, '../test_persist.ini')
+        test_attributes = lib.rebuild_persistence(self.path)
+        self.assertEqual(test_attributes['invert'], False)
+        self.assertEqual(test_attributes['build'], False)
+
+        # Test creation of file
+        self.assertTrue(os.path.isfile(self.path))
+        os.remove('test_persist.ini')
 
     def test_read_from_paths(self):
         self.assertTrue(True)
