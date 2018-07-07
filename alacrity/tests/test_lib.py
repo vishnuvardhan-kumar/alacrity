@@ -19,7 +19,7 @@ class TestParser(unittest.TestCase):
 
         # Test creation of file
         self.assertTrue(os.path.isfile(self.path))
-        os.remove('test_persist.ini')
+        os.remove(self.path)
 
     def test_read_from_paths(self):
         self.assertTrue(True)
