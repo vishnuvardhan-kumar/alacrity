@@ -37,7 +37,8 @@ def rebuild_persistence(name='persist.ini'):
             for option in options.keys():
                 file_object.write('{}={}\n'.format(option, options[option]))
 
-    except IOError:
+    except IOError as error:
+        print(error)
         logging.error("The persist.ini file could not be created.")
 
     return persist_path, options
