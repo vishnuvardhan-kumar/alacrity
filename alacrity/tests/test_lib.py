@@ -10,7 +10,7 @@ class TestParser(unittest.TestCase):
 
     def test_rebuild_persistence(self):
         # Initialise paths
-        self.path = '../test_persist.ini'
+        self.path = 'test_persist.ini'
 
         # Test default values
         self.persist, test_attributes = lib.rebuild_persistence(self.path)

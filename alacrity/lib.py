@@ -12,6 +12,7 @@ if sys.version_info.major == 2:
     string_input = raw_input
 
 filepath = os.path.abspath(__file__)
+dirpath = os.path.dirname(filepath)
 
 
 def rebuild_persistence(name='persist.ini'):
@@ -22,8 +23,8 @@ def rebuild_persistence(name='persist.ini'):
                'build': False}
 
     # Congregated persistence path
-    persist_path = os.path.join(filepath, name)
-
+    persist_path = os.path.join(dirpath, name)
+    
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
         os.remove(persist_path)
