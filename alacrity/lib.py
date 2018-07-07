@@ -24,7 +24,7 @@ def rebuild_persistence(name='persist.ini'):
 
     # Congregated persistence path
     persist_path = os.path.join(dirpath, name)
-    
+
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
         os.remove(persist_path)

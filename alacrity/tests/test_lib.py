@@ -21,53 +21,53 @@ class TestParser(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.persist))
         os.remove(self.persist)
 
-    def test_read_from_paths(self):
-        self.assertTrue(True)
-
-    def test_remove_package(self):
-        self.assertTrue(True)
-
-    def test_create_package_structure(self):
-        self.assertTrue(True)
-
-    def test_create_docs(self):
-        self.assertFalse(False)
-
-    def test_create_tests(self):
-        self.assertEqual(2+2, 4)
-
-    def test_create_gitignore(self):
-        self.assertTrue(True)
-
-    def test_create_manifest(self):
-        self.assertTrue(True)
-
-    def test_create_requirements(self):
-        self.assertTrue(True)
-
-    def test_create_readme(self):
-        self.assertTrue(True)
-
-    def test_create_makefile(self):
-        self.assertTrue(True)
-
-    def test_create_setup(self):
-        self.assertTrue(True)
-
-    def test_mit(self):
-        self.assertTrue(True)
-
-    def test_apa(self):
-        self.assertTrue(True)
-
-    def test_gpl(self):
-        self.assertTrue(True)
-
-    def test_create_license(self):
-        self.assertTrue(True)
-
-    def test_create_starter_files(self):
-        self.assertTrue(True)
+    # def test_read_from_paths(self):
+    #     self.assertTrue(True)
+    #
+    # def test_remove_package(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_package_structure(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_docs(self):
+    #     self.assertFalse(False)
+    #
+    # def test_create_tests(self):
+    #     self.assertEqual(2+2, 4)
+    #
+    # def test_create_gitignore(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_manifest(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_requirements(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_readme(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_makefile(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_setup(self):
+    #     self.assertTrue(True)
+    #
+    # def test_mit(self):
+    #     self.assertTrue(True)
+    #
+    # def test_apa(self):
+    #     self.assertTrue(True)
+    #
+    # def test_gpl(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_license(self):
+    #     self.assertTrue(True)
+    #
+    # def test_create_starter_files(self):
+    #     self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()
