@@ -4,26 +4,22 @@ import unittest
 from alacrity import lib
 import os
 
-filepath = os.path.abspath(__file__)
-
 
 class TestParser(unittest.TestCase):
     """ Unittests for alacrity/lib.py """
 
     def test_rebuild_persistence(self):
         # Initialise paths
-        self.filepath = filepath
         self.path = '../test_persist.ini'
-        self.joinpath = os.path.join(self.filepath, self.path)
 
         # Test default values
-        test_attributes = lib.rebuild_persistence(self.filepath, self.path)
+        self.persist, test_attributes = lib.rebuild_persistence(self.path)
         self.assertEqual(test_attributes['invert'], False)
         self.assertEqual(test_attributes['build'], False)
 
         # Test creation of file
-        self.assertTrue(os.path.isfile(self.joinpath))
-        os.remove(self.joinpath)
+        self.assertTrue(os.path.isfile(self.persist))
+        os.remove(self.persist)
 
     def test_read_from_paths(self):
         self.assertTrue(True)

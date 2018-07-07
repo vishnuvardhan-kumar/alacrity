@@ -14,7 +14,7 @@ if sys.version_info.major == 2:
 filepath = os.path.abspath(__file__)
 
 
-def rebuild_persistence(path=filepath, name='persist.ini'):
+def rebuild_persistence(name='persist.ini'):
     """ Rebuild the persist.ini file if missing/corrupted """
 
     # Default values for persistence
@@ -22,7 +22,7 @@ def rebuild_persistence(path=filepath, name='persist.ini'):
                'build': False}
 
     # Congregated persistence path
-    persist_path = os.path.join(path, name)
+    persist_path = os.path.join(filepath, name)
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
@@ -40,7 +40,7 @@ def rebuild_persistence(path=filepath, name='persist.ini'):
     except IOError:
         logging.error("The persist.ini file could not be created.")
 
-    return options
+    return persist_path, options
 
 
 def read_from_paths(rel_path, abs_path):
