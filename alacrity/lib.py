@@ -71,7 +71,7 @@ def create_package_structure(package_name):
         os.mkdir(package_name)
 
         # Create package sub-directory
-        sub_directory = '{}/{}'.format(package_name, package_name)
+        sub_directory = '{0}/{0}'.format(package_name)
         os.mkdir(sub_directory)
 
         # Create __init__.py in subdirectory

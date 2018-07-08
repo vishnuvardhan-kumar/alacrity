@@ -38,9 +38,27 @@ class TestParser(unittest.TestCase):
 
         self.assertFalse(os.path.isdir(self.test_path))
 
-    # def test_create_package_structure(self):
-    #     self.assertTrue(True)
-    #
+    def test_create_package_structure(self):
+        self.test_name = 'sample_package'
+        self.sub_directory = '{0}/{0}'.format(self.test_name)
+        self.initfile = '{}/__init__.py'.format(self.sub_directory)
+        self.corefile = '{}/core.py'.format(self.sub_directory)
+        self.libfile = '{}/lib.py'.format(self.sub_directory)
+
+        lib.create_package_structure(self.test_name)
+
+        # Verify creation of directories
+        self.assertTrue(os.path.isdir(self.test_name))
+        self.assertTrue(os.path.isdir(self.sub_directory))
+
+        # Verify creation of files
+        self.assertTrue(os.path.isfile(self.initfile))
+        self.assertTrue(os.path.isfile(self.corefile))
+        self.assertTrue(os.path.isfile(self.libfile))
+
+        # Clean-up the package created
+        lib.remove_package(self.test_name)
+
     # def test_create_docs(self):
     #     self.assertFalse(False)
     #
