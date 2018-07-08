@@ -31,9 +31,13 @@ class TestParser(unittest.TestCase):
         self.data = lib.read_from_paths(self.test_path, self.abs_path)
         self.assertEqual(self.data, "#Testdata#")
 
-    # def test_remove_package(self):
-    #     self.assertTrue(True)
-    #
+    def test_remove_package(self):
+        self.test_path = 'test_dir'
+        os.mkdir(self.test_path)
+        lib.remove_package(self.test_path)
+
+        self.assertFalse(os.path.isdir(self.test_path))
+
     # def test_create_package_structure(self):
     #     self.assertTrue(True)
     #
