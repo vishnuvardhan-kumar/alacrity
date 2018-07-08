@@ -134,8 +134,8 @@ def create_tests_package(path):
 def create_git_ignore(path):
     """" Creates a Python .gitignore file in the path"""
 
-    abs_path = os.path.join(filepath, "../starters/gitignore.txt")
-    rel_path = os.path.join(filepath, "../gitignore.txt")
+    abs_path = os.path.join(dirpath, "starters/gitignore.txt")
+    rel_path = os.path.join(dirpath, "gitignore.txt")
 
     try:
         with open(rel_path, "r") as git_read:
