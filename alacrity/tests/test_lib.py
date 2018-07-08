@@ -30,6 +30,7 @@ class TestParser(unittest.TestCase):
 
         self.data = lib.read_from_paths(self.test_path, self.abs_path)
         self.assertEqual(self.data, "#Testdata#")
+        os.remove(self.test_path)
 
     def test_remove_package(self):
         self.test_path = 'test_dir'
@@ -59,9 +60,27 @@ class TestParser(unittest.TestCase):
         # Clean-up the package created
         lib.remove_package(self.test_name)
 
-    # def test_create_docs(self):
-    #     self.assertFalse(False)
-    #
+    def test_create_docs_directory(self):
+        self.test_name = 'sample_directory'
+        self.sub_directory = '{0}/docs'.format(self.test_name)
+        self.conffile = '{}/conf.py'.format(self.sub_directory)
+        self.indexfile = '{}/index.rst'.format(self.sub_directory)
+        self.makefile = '{}/make.bat'.format(self.sub_directory)
+
+        os.mkdir(self.test_name)
+        lib.create_docs_directory(self.test_name)
+
+        # Verify creation of directories
+        self.assertTrue(os.path.isdir(self.test_name))
+        self.assertTrue(os.path.isdir(self.sub_directory))
+
+        # Verify creation of files
+        self.assertTrue(os.path.isfile(self.conffile))
+        self.assertTrue(os.path.isfile(self.indexfile))
+        self.assertTrue(os.path.isfile(self.makefile))
+
+        lib.remove_package(self.test_name)
+
     # def test_create_tests(self):
     #     self.assertEqual(2+2, 4)
     #
