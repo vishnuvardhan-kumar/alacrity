@@ -81,10 +81,26 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.test_name)
 
-    # def test_create_tests(self):
-    #     self.assertEqual(2+2, 4)
-    #
-    # def test_create_gitignore(self):
+    def test_create_tests_package(self):
+        self.test_name = 'sample_tests_pack'
+        self.sub_directory = '{0}/tests'.format(self.test_name)
+        self.initfile = '{}/__init__.py'.format(self.sub_directory)
+        self.testlibfile = '{}/test_lib.py'.format(self.sub_directory)
+
+        os.mkdir(self.test_name)
+        lib.create_tests_package(self.test_name)
+
+        # Verify creation of directories
+        self.assertTrue(os.path.isdir(self.test_name))
+        self.assertTrue(os.path.isdir(self.sub_directory))
+
+        # Verify creation of files
+        self.assertTrue(os.path.isfile(self.initfile))
+        self.assertTrue(os.path.isfile(self.testlibfile))
+
+        lib.remove_package(self.test_name)
+
+        # def test_create_gitignore(self):
     #     self.assertTrue(True)
     #
     # def test_create_manifest(self):
