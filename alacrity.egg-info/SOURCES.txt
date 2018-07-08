@@ -24,3 +24,5 @@ alacrity/starters/requirements.txt
 alacrity/starters/setup.py
 alacrity/tests/__init__.py
 alacrity/tests/test_lib.py
+alacrity/tests/starters/__init__.py
+alacrity/tests/starters/setup.py

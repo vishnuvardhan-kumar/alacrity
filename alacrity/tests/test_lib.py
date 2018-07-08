@@ -100,9 +100,18 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.test_name)
 
-        # def test_create_gitignore(self):
-    #     self.assertTrue(True)
-    #
+    def test_create_gitignore(self):
+        self.path = 'test_path'
+        self.gitpath = '{}/.gitignore'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.create_git_ignore(self.path)
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.gitpath))
+
+        lib.remove_package(self.path)
+
     # def test_create_manifest(self):
     #     self.assertTrue(True)
     #
