@@ -21,9 +21,16 @@ class TestParser(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.persist))
         os.remove(self.persist)
 
-    # def test_read_from_paths(self):
-    #     self.assertTrue(True)
-    #
+    def test_read_from_paths(self):
+        self.test_path = 'test_file'
+        self.abs_path = os.path.abspath('test_file')
+
+        with open(self.test_path, 'w') as obj:
+            obj.write("#Testdata#")
+
+        self.data = lib.read_from_paths(self.test_path, self.abs_path)
+        self.assertEqual(self.data, "#Testdata#")
+
     # def test_remove_package(self):
     #     self.assertTrue(True)
     #
