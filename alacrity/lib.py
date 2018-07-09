@@ -154,8 +154,8 @@ def create_git_ignore(path):
 def create_manifest(path):
     """" Creates a MANIFEST.in file in the path"""
 
-    abs_path = os.path.join(filepath, "../starters/MANIFEST.in")
-    rel_path = os.path.join(filepath, "../MANIFEST.in")
+    abs_path = os.path.join(dirpath, "starters/MANIFEST.in")
+    rel_path = os.path.join(dirpath, "MANIFEST.in")
 
     try:
         with open(rel_path, "r") as man:
