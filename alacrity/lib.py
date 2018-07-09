@@ -194,8 +194,8 @@ def create_requirements(path):
 def create_readme(path):
     """" Creates a README.rst file in the path"""
 
-    abs_path = os.path.join(filepath, "../starters/README.rst")
-    rel_path = os.path.join(filepath, "../README.rst")
+    abs_path = os.path.join(dirpath, "starters/README.rst")
+    rel_path = os.path.join(dirpath, "README.rst")
 
     try:
         with open(rel_path, "r") as man:

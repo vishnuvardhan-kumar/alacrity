@@ -136,9 +136,18 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.path)
 
-    # def test_create_readme(self):
-    #     self.assertTrue(True)
-    #
+    def test_create_readme(self):
+        self.path = 'test_path'
+        self.readpath = '{}/README.rst'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.create_readme(self.path)
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.readpath))
+
+        lib.remove_package(self.path)
+
     # def test_create_makefile(self):
     #     self.assertTrue(True)
     #
