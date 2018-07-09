@@ -148,9 +148,18 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.path)
 
-    # def test_create_makefile(self):
-    #     self.assertTrue(True)
-    #
+    def test_create_makefile(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.makepath = '{}/Makefile'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.create_makefile(self.path)
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.makepath))
+
+        lib.remove_package(self.path)
+
     # def test_create_setup(self):
     #     self.assertTrue(True)
     #
