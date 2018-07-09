@@ -174,8 +174,8 @@ def create_manifest(path):
 def create_requirements(path):
     """" Creates a requirements.txt file in the path"""
 
-    abs_path = os.path.join(filepath, "../starters/requirements.txt")
-    rel_path = os.path.join(filepath, "../requirements.txt")
+    abs_path = os.path.join(dirpath, "starters/requirements.txt")
+    rel_path = os.path.join(dirpath, "requirements.txt")
 
     try:
         with open(rel_path, "r") as man:
