@@ -243,8 +243,8 @@ def create_setup(path, test=False):
         print(colored.green("Enter author email:"))
         author_email = string_input()
 
-    abs_path = os.path.join(filepath, "../starters/setup.py")
-    rel_path = os.path.join(filepath, "../setup.py")
+    abs_path = os.path.join(dirpath, "starters/setup.py")
+    rel_path = os.path.join(dirpath, "setup.py")
 
     try:
         with open(rel_path, "r") as man:
