@@ -223,22 +223,25 @@ def create_makefile(path):
         logging.error(" Makefile creation failed.")
 
 
-def create_setup(path):
+def create_setup(path, test=False):
     """" Create a setup.py file in the path"""
 
     package_name = path
+    version = desc = ""
+    author = author_email = ""
 
-    print(colored.green("Enter the initial version:"))
-    version = string_input()
+    if not test:
+        print(colored.green("Enter the initial version:"))
+        version = string_input()
 
-    print(colored.green("Enter a brief description:"))
-    desc = string_input()
+        print(colored.green("Enter a brief description:"))
+        desc = string_input()
 
-    print(colored.green("Enter author name:"))
-    author = string_input()
+        print(colored.green("Enter author name:"))
+        author = string_input()
 
-    print(colored.green("Enter author email:"))
-    author_email = string_input()
+        print(colored.green("Enter author email:"))
+        author_email = string_input()
 
     abs_path = os.path.join(filepath, "../starters/setup.py")
     rel_path = os.path.join(filepath, "../setup.py")
@@ -251,11 +254,12 @@ def create_setup(path):
             doc = man.read()
 
     # Make the changes
-    doc = doc.replace('[@package_name]', package_name)
-    doc = doc.replace('[@version]', version)
-    doc = doc.replace('[@desc]', desc)
-    doc = doc.replace('[@author]', author)
-    doc = doc.replace('[@author_email]', author_email)
+    if not test:
+        doc = doc.replace('[@package_name]', package_name)
+        doc = doc.replace('[@version]', version)
+        doc = doc.replace('[@desc]', desc)
+        doc = doc.replace('[@author]', author)
+        doc = doc.replace('[@author_email]', author_email)
 
     try:
         with open("{}/setup.py".format(path), "w") as wr:
