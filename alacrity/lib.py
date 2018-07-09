@@ -273,8 +273,8 @@ def create_setup(path, test=False):
 def mit_lic(path, name, year):
     """ Create a MIT license """
 
-    abs_path = os.path.join(filepath, "../starters/MIT_LICENSE")
-    rel_path = os.path.join(filepath, "../MIT_LICENSE")
+    abs_path = os.path.join(dirpath, "starters/MIT_LICENSE")
+    rel_path = os.path.join(dirpath, "MIT_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -291,8 +291,8 @@ def mit_lic(path, name, year):
 def apa_lic(path, name, year):
     """ Create an Apache2 license """
 
-    abs_path = os.path.join(filepath, "../starters/APACHE2_LICENSE")
-    rel_path = os.path.join(filepath, "../APACHE2_LICENSE")
+    abs_path = os.path.join(dirpath, "starters/APACHE2_LICENSE")
+    rel_path = os.path.join(dirpath, "APACHE2_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -309,8 +309,8 @@ def apa_lic(path, name, year):
 def gpl_lic(path):
     """ Create a GPL license """
 
-    abs_path = os.path.join(filepath, "../starters/GPL_LICENSE")
-    rel_path = os.path.join(filepath, "../GPL_LICENSE")
+    abs_path = os.path.join(dirpath, "starters/GPL_LICENSE")
+    rel_path = os.path.join(dirpath, "GPL_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 

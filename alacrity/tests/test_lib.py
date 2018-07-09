@@ -172,15 +172,42 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.path)
 
-    # def test_mit(self):
-    #     self.assertTrue(True)
-    #
-    # def test_apa(self):
-    #     self.assertTrue(True)
-    #
-    # def test_gpl(self):
-    #     self.assertTrue(True)
-    #
+    def test_mit(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.licpath = '{}/LICENSE'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.mit_lic(self.path, 'testname', 'year')
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.licpath))
+
+        lib.remove_package(self.path)
+
+    def test_apa(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.licpath = '{}/LICENSE'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.apa_lic(self.path, 'testname', 'year')
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.licpath))
+
+        lib.remove_package(self.path)
+
+    def test_gpl(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.licpath = '{}/LICENSE'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.gpl_lic(self.path)
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.licpath))
+
+        lib.remove_package(self.path)
+
     # def test_create_license(self):
     #     self.assertTrue(True)
     #
