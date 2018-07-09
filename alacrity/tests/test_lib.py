@@ -112,9 +112,18 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.path)
 
-    # def test_create_manifest(self):
-    #     self.assertTrue(True)
-    #
+    def test_create_manifest(self):
+        self.path = 'test_path'
+        self.manpath = '{}/MANIFEST.in'.format(self.path)
+
+        os.mkdir(self.path)
+        lib.create_manifest(self.path)
+
+        # Check if the file was created successfully
+        self.assertTrue(os.path.isfile(self.manpath))
+
+        lib.remove_package(self.path)
+
     # def test_create_requirements(self):
     #     self.assertTrue(True)
     #
