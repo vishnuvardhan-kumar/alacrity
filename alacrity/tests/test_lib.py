@@ -6,7 +6,7 @@ import os
 
 
 class TestParser(unittest.TestCase):
-    """ Unittests for alacrity/lib.py """
+    """ Unittests for alacrity.lib """
 
     def test_rebuild_persistence(self):
         # Initialise paths
@@ -207,12 +207,6 @@ class TestParser(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.licpath))
 
         lib.remove_package(self.path)
-
-    # def test_create_license(self):
-    #     self.assertTrue(True)
-    #
-    # def test_create_starter_files(self):
-    #     self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()
