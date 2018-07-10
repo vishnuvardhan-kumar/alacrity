@@ -5,7 +5,7 @@ with open("README.md", "r") as file_obj:
 
 setuptools.setup(
     name="alacrity",
-    version="1.0.1",
+    version="1.0.2",
     author="Vishnuvardhan Kumar",
     author_email="vishnukumar1997@gmail.com",
     description="Quickstart your Python development with CLI package templating",

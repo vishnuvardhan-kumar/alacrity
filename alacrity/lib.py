@@ -5,6 +5,7 @@ import logging
 import os
 import shutil
 import sys
+from clint.textui import colored
 
 string_input = input
 if sys.version_info.major == 2:
@@ -229,16 +230,16 @@ def create_setup(path, test=False):
     author = author_email = ""
 
     if not test:
-        print("Enter the initial version:")
+        print(colored.green("Enter the initial version:"))
         version = string_input()
 
-        print("Enter a brief description:")
+        print(colored.green("Enter a brief description:"))
         desc = string_input()
 
-        print("Enter author name:")
+        print(colored.green("Enter author name:"))
         author = string_input()
 
-        print("Enter author email:")
+        print(colored.green("Enter author email:"))
         author_email = string_input()
 
     abs_path = os.path.join(dirpath, "starters/setup.py")
@@ -322,12 +323,12 @@ def gpl_lic(path):
 def create_license(path, full_name):
     """" Prompt user for choice of license and create"""
 
-    print("Choose a license: [mit/apache/gpl3]")
+    print(colored.green("Choose a license: [mit/apache/gpl3]"))
     license_name = string_input()
 
     fullname = full_name
 
-    print("Enter year for license:")
+    print(colored.green("Enter year for license:"))
     year = string_input()
 
     if license_name == 'mit':

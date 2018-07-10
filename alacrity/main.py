@@ -5,6 +5,7 @@ import logging
 import os
 from alacrity import lib
 import sys
+from clint.textui import colored
 
 string_input = input
 if sys.version_info.major == 2:
@@ -16,18 +17,18 @@ def main():
 
     try:
         try:
-            print("Enter the name of the package:")
+            print(colored.green("Enter the name of the package:"))
             package_name = string_input()
 
             # Check for clean_make
             if os.path.isdir(package_name) and os.path.isfile("{0}/{0}/__init__.py".format(package_name)):
-                print("The package already exists, destroy and clean make? (y/n)")
+                print(colored.red("The package already exists, destroy and clean make? (y/n)"))
                 choice = string_input()
 
                 if choice == 'y':
                     lib.remove_package(package_name)
                 elif choice == 'n':
-                    print("Please pick a different package name, aborting.")
+                    print(colored.red("Please pick a different package name, aborting."))
                     sys.exit()
                 else:
                     logging.error(" Invalid choice")
@@ -41,9 +42,10 @@ def main():
             # Create tests directory
             lib.create_tests_package(package_name)
 
-            print("Package {} was created successfully.".format(package_name))
+            print(colored.yellow("Package {} was created successfully.".format(package_name)))
         except EOFError:
-            print("Ctrl+C : Aborting package creation.")
+            # Catch error thrown by clint.main
+            print(colored.yellow("Ctrl+C : Aborting package creation."))
             sys.exit()
     except KeyboardInterrupt:
         pass
