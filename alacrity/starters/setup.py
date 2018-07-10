@@ -2,11 +2,11 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as f:
-    readme = f.read()
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
 
-with open('LICENSE') as f:
-    license_text = f.read()
+with open('LICENSE') as lic_file:
+    license_text = lic_file.read()
 
 setup(
     name="[@package_name]",
