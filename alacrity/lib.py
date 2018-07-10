@@ -1,6 +1,5 @@
 from __future__ import print_function
 from __future__ import division, absolute_import
-from clint.textui import colored
 
 import logging
 import os
@@ -38,8 +37,7 @@ def rebuild_persistence(name='persist.ini'):
             for option in options.keys():
                 file_object.write('{}={}\n'.format(option, options[option]))
 
-    except IOError as error:
-        print(error)
+    except IOError:
         logging.error("The persist.ini file could not be created.")
 
     return persist_path, options
@@ -231,16 +229,16 @@ def create_setup(path, test=False):
     author = author_email = ""
 
     if not test:
-        print(colored.green("Enter the initial version:"))
+        print("Enter the initial version:")
         version = string_input()
 
-        print(colored.green("Enter a brief description:"))
+        print("Enter a brief description:")
         desc = string_input()
 
-        print(colored.green("Enter author name:"))
+        print("Enter author name:")
         author = string_input()
 
-        print(colored.green("Enter author email:"))
+        print("Enter author email:")
         author_email = string_input()
 
     abs_path = os.path.join(dirpath, "starters/setup.py")
@@ -324,12 +322,12 @@ def gpl_lic(path):
 def create_license(path, full_name):
     """" Prompt user for choice of license and create"""
 
-    print(colored.green("Choose a license: [mit/apache/gpl3]"))
+    print("Choose a license: [mit/apache/gpl3]")
     license_name = string_input()
 
     fullname = full_name
 
-    print(colored.green("Enter year for license:"))
+    print("Enter year for license:")
     year = string_input()
 
     if license_name == 'mit':
@@ -360,6 +358,3 @@ def create_starter_files(path):
     create_readme(path)
     # requirements.txt
     create_requirements(path)
-
-if __name__ == '__main__':
-    pass
