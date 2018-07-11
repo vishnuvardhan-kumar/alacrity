@@ -63,7 +63,7 @@ def remove_package(path):
         logging.error("The path %s could not be removed", path)
 
 
-def create_package_structure(package_name):
+def create_package_structure(package_name, status):
     """" Creates the initial package structure """
 
     try:
@@ -85,6 +85,8 @@ def create_package_structure(package_name):
         with open('{}/lib.py'.format(sub_directory), 'w') as fobj:
             fobj.close()
 
+        status['structure_created'] = True
+
     except IOError:
         logging.error(".py file creation failed at subdirectory.")
     except OSError:
@@ -92,7 +94,7 @@ def create_package_structure(package_name):
         logging.error("Enable clean_make for complete reconstruction")
 
 
-def create_docs_directory(path):
+def create_docs_directory(path, status):
     """" Creates a docs directory with some starter files """
 
     try:
@@ -105,13 +107,15 @@ def create_docs_directory(path):
             fobj.close()
         with open('{}/docs/make.bat'.format(path), 'w') as fobj:
             fobj.close()
-        create_makefile('{}/docs'.format(path))
+        create_makefile('{}/docs'.format(path), status)
+        status['docs_created'] = True
+
     except OSError:
         logging.error("%s/docs directory already exists", path)
         logging.error("Enable clean_make for complete reconstruction")
 
 
-def create_tests_package(path):
+def create_tests_package(path, status):
     """" Creates a tests directory with an __init__.py """
 
     try:
@@ -123,6 +127,7 @@ def create_tests_package(path):
         # Create test_lib.py in tests directory
         with open('{}/tests/test_lib.py'.format(path), 'w') as fobj:
             fobj.write("# Place tests for the lib.py functions here. ")
+        status['tests_created'] = True
 
     except IOError:
         logging.error("py file creation failed at tests directory")
@@ -130,7 +135,7 @@ def create_tests_package(path):
         logging.error("Enable clean_make for complete reconstruction")
 
 
-def create_git_ignore(path):
+def create_git_ignore(path, status):
     """" Creates a Python .gitignore file in the path"""
 
     abs_path = os.path.join(dirpath, "starters/gitignore.txt")
@@ -146,11 +151,13 @@ def create_git_ignore(path):
     try:
         with open("{}/.gitignore".format(path), "w") as git:
                 git.write(git_ignore)
+        status['gitignore_created'] = True
+
     except IOError:
         logging.error(" .gitignore creation failed")
 
 
-def create_manifest(path):
+def create_manifest(path, status):
     """" Creates a MANIFEST.in file in the path"""
 
     abs_path = os.path.join(dirpath, "starters/MANIFEST.in")
@@ -166,11 +173,13 @@ def create_manifest(path):
     try:
         with open("{}/MANIFEST.in".format(path), "w") as git:
             git.write(data)
+        status['manifest_created'] = True
+
     except IOError:
         logging.error(" MANIFEST.in creation failed")
 
 
-def create_requirements(path):
+def create_requirements(path, status):
     """" Creates a requirements.txt file in the path"""
 
     abs_path = os.path.join(dirpath, "starters/requirements.txt")
@@ -186,11 +195,13 @@ def create_requirements(path):
     try:
         with open("{}/requirements.txt".format(path), "w") as git:
             git.write(data)
+        status['requirements_created'] = True
+
     except IOError:
         logging.error(" requirements.txt creation failed")
 
 
-def create_readme(path):
+def create_readme(path, status):
     """" Creates a README.rst file in the path"""
 
     abs_path = os.path.join(dirpath, "starters/README.rst")
@@ -209,20 +220,24 @@ def create_readme(path):
     try:
         with open("{}/README.rst".format(path), "w") as wr:
             wr.write(data)
+        status['readme_created'] = True
+
     except IOError:
         logging.error(" README.rst creation failed.")
 
 
-def create_makefile(path):
+def create_makefile(path, status):
     """" Creates a MAKEFILE in the path"""
     try:
         with open('{}/Makefile'.format(path), 'w') as fobj:
             fobj.close()
+        status['makefile_created'] = True
+
     except IOError:
         logging.error(" Makefile creation failed.")
 
 
-def create_setup(path, test=False):
+def create_setup(path, status, test=False):
     """" Create a setup.py file in the path"""
 
     package_name = path
@@ -263,13 +278,15 @@ def create_setup(path, test=False):
     try:
         with open("{}/setup.py".format(path), "w") as wr:
             wr.write(doc)
+        status['setup_created'] = True
+
     except IOError:
         logging.error(" setup.py creation failed.")
 
     return author
 
 
-def mit_lic(path, name, year):
+def mit_lic(path, name, year, status):
     """ Create a MIT license """
 
     abs_path = os.path.join(dirpath, "starters/MIT_LICENSE")
@@ -283,11 +300,13 @@ def mit_lic(path, name, year):
     try:
         with open("{}/LICENSE".format(path), "w") as fobj:
             fobj.write(data)
+        status['license_created'] = True
+
     except IOError:
         logging.error(" LICENSE creation failed.")
 
 
-def apa_lic(path, name, year):
+def apa_lic(path, name, year, status):
     """ Create an Apache2 license """
 
     abs_path = os.path.join(dirpath, "starters/APACHE2_LICENSE")
@@ -301,11 +320,13 @@ def apa_lic(path, name, year):
     try:
         with open("{}/LICENSE".format(path), "w") as fobj:
             fobj.write(data)
+        status['license_created'] = True
+
     except IOError:
         logging.error(" LICENSE creation failed.")
 
 
-def gpl_lic(path):
+def gpl_lic(path, status):
     """ Create a GPL license """
 
     abs_path = os.path.join(dirpath, "starters/GPL_LICENSE")
@@ -316,11 +337,13 @@ def gpl_lic(path):
     try:
         with open("{}/LICENSE".format(path), "w") as fobj:
             fobj.write(data)
+        status['license_created'] = True
+
     except IOError:
         logging.error(" LICENSE creation failed.")
 
 
-def create_license(path, full_name):
+def create_license(path, full_name, status):
     """" Prompt user for choice of license and create"""
 
     print(colored.green("Choose a license: [mit/apache/gpl3]"))
@@ -332,30 +355,30 @@ def create_license(path, full_name):
     year = string_input()
 
     if license_name == 'mit':
-        mit_lic(path, fullname, year)
+        mit_lic(path, fullname, year, status)
     elif license_name == 'apache':
-        apa_lic(path, fullname, year)
+        apa_lic(path, fullname, year, status)
     elif license_name == 'gpl3':
-        gpl_lic(path)
+        gpl_lic(path, status)
     else:
         logging.error(" Invalid license name.")
         logging.info(" Skipping LICENSE creation")
 
 
-def create_starter_files(path):
+def create_starter_files(path, status):
     """" Create and place various files in the package"""
 
     # Create standard Python .gitignore
-    create_git_ignore(path)
+    create_git_ignore(path, status)
     # setup.py
-    full_name = create_setup(path)
+    full_name = create_setup(path, status, test=False)
     # LICENSE
-    create_license(path, full_name)
+    create_license(path, full_name, status)
     # MANIFEST.in
-    create_manifest(path)
+    create_manifest(path, status)
     # Makefile
-    create_makefile(path)
+    create_makefile(path, status)
     # README.rst
-    create_readme(path)
+    create_readme(path, status)
     # requirements.txt
-    create_requirements(path)
+    create_requirements(path, status)
