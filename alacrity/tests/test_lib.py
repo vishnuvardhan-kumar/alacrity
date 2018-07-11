@@ -8,6 +8,20 @@ import os
 class TestParser(unittest.TestCase):
     """ Unittests for alacrity.lib """
 
+    def setUp(self):
+        self.status = {
+            'test_structure_created': False,
+            'test_gitignore_created': False,
+            'test_setup_created': False,
+            'test_license_created': False,
+            'test_manifest_created': False,
+            'test_makefile_created': False,
+            'test_readme_created': False,
+            'test_requirements_created': False,
+            'test_tests_created': False,
+            'test_docs_created': False,
+        }
+
     def test_rebuild_persistence(self):
         # Initialise paths
         self.path = 'test_persist.ini'
@@ -46,7 +60,7 @@ class TestParser(unittest.TestCase):
         self.corefile = '{}/core.py'.format(self.sub_directory)
         self.libfile = '{}/lib.py'.format(self.sub_directory)
 
-        lib.create_package_structure(self.test_name)
+        lib.create_package_structure(self.test_name, self.status)
 
         # Verify creation of directories
         self.assertTrue(os.path.isdir(self.test_name))
@@ -68,7 +82,7 @@ class TestParser(unittest.TestCase):
         self.makefile = '{}/make.bat'.format(self.sub_directory)
 
         os.mkdir(self.test_name)
-        lib.create_docs_directory(self.test_name)
+        lib.create_docs_directory(self.test_name, self.status)
 
         # Verify creation of directories
         self.assertTrue(os.path.isdir(self.test_name))
@@ -88,7 +102,7 @@ class TestParser(unittest.TestCase):
         self.testlibfile = '{}/test_lib.py'.format(self.sub_directory)
 
         os.mkdir(self.test_name)
-        lib.create_tests_package(self.test_name)
+        lib.create_tests_package(self.test_name, self.status)
 
         # Verify creation of directories
         self.assertTrue(os.path.isdir(self.test_name))
@@ -105,7 +119,7 @@ class TestParser(unittest.TestCase):
         self.gitpath = '{}/.gitignore'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_git_ignore(self.path)
+        lib.create_git_ignore(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.gitpath))
@@ -117,7 +131,7 @@ class TestParser(unittest.TestCase):
         self.manpath = '{}/MANIFEST.in'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_manifest(self.path)
+        lib.create_manifest(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.manpath))
@@ -129,7 +143,7 @@ class TestParser(unittest.TestCase):
         self.reqpath = '{}/requirements.txt'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_requirements(self.path)
+        lib.create_requirements(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.reqpath))
@@ -141,7 +155,7 @@ class TestParser(unittest.TestCase):
         self.readpath = '{}/README.rst'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_readme(self.path)
+        lib.create_readme(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.readpath))
@@ -153,7 +167,7 @@ class TestParser(unittest.TestCase):
         self.makepath = '{}/Makefile'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_makefile(self.path)
+        lib.create_makefile(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.makepath))
@@ -165,7 +179,7 @@ class TestParser(unittest.TestCase):
         self.setuppath = '{}/setup.py'.format(self.path)
 
         os.mkdir(self.path)
-        lib.create_setup(self.path, test=True)
+        lib.create_setup(self.path, self.status, test=True)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.setuppath))
@@ -177,7 +191,7 @@ class TestParser(unittest.TestCase):
         self.licpath = '{}/LICENSE'.format(self.path)
 
         os.mkdir(self.path)
-        lib.mit_lic(self.path, 'testname', 'year')
+        lib.mit_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.licpath))
@@ -189,7 +203,7 @@ class TestParser(unittest.TestCase):
         self.licpath = '{}/LICENSE'.format(self.path)
 
         os.mkdir(self.path)
-        lib.apa_lic(self.path, 'testname', 'year')
+        lib.apa_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.licpath))
@@ -201,7 +215,7 @@ class TestParser(unittest.TestCase):
         self.licpath = '{}/LICENSE'.format(self.path)
 
         os.mkdir(self.path)
-        lib.gpl_lic(self.path)
+        lib.gpl_lic(self.path, self.status)
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.licpath))
