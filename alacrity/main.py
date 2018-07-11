@@ -54,6 +54,13 @@ def main():
         'docs_created': False,
     }
 
+    # Add invert handler
+    arguments_passed = sys.argv[1:]
+
+    if '--make' in arguments_passed:
+        lib.rebuild_persistence()
+        sys.exit()
+
     try:
         try:
             print(colored.green("Enter the name of the package:"))

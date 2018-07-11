@@ -27,7 +27,17 @@ def rebuild_persistence(name='persist.ini'):
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
-        os.remove(persist_path)
+        print(colored.red("WARN : persist.ini exists, destroy and clean-make (y/n)"))
+
+        choice = string_input()
+
+        if choice == 'y':
+            os.remove(persist_path)
+        elif choice == 'n':
+            print(colored.green("Clean make cancelled, aborting."))
+            sys.exit()
+        else:
+            logging.error(" Invalid choice")
 
     try:
         with open(persist_path, "w") as file_object:
@@ -37,6 +47,7 @@ def rebuild_persistence(name='persist.ini'):
 
             for option in options.keys():
                 file_object.write('{}={}\n'.format(option, options[option]))
+            print(colored.yellow("Persistence was rebuilt successfully."))
 
     except IOError:
         logging.error("The persist.ini file could not be created.")
