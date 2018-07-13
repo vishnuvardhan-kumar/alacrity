@@ -6,6 +6,7 @@ import os
 from alacrity import lib
 import sys
 from clint.textui import colored
+import argparse
 
 string_input = input
 if sys.version_info.major == 2:
@@ -53,6 +54,23 @@ def main():
         'tests_created': False,
         'docs_created': False,
     }
+
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('-v', '--verbose',
+    #                     action='count', default=0,
+    #                     help=help_text)
+    # parser.add_argument('-o', '--out', help="to specify an output JSON file")
+    # parser.add_argument('file', help="XML file to be parsed")
+    # args = parser.parse_args()
+    # 
+    # verbose_level = {0: logging.ERROR,
+    #                  1: logging.WARNING,
+    #                  2: logging.INFO,
+    #                  3: logging.DEBUG}
+    #
+    # # Set logger to verbose level given in arguments
+    # logging.basicConfig(format='%(levelname)s: %(message)s',
+    #                     level=verbose_level[args.verbose])
 
     # Add invert handler
     arguments_passed = sys.argv[1:]
