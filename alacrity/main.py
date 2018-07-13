@@ -55,22 +55,7 @@ def main():
         'docs_created': False,
     }
 
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('-v', '--verbose',
-    #                     action='count', default=0,
-    #                     help=help_text)
-    # parser.add_argument('-o', '--out', help="to specify an output JSON file")
-    # parser.add_argument('file', help="XML file to be parsed")
-    # args = parser.parse_args()
-    # 
-    # verbose_level = {0: logging.ERROR,
-    #                  1: logging.WARNING,
-    #                  2: logging.INFO,
-    #                  3: logging.DEBUG}
-    #
-    # # Set logger to verbose level given in arguments
-    # logging.basicConfig(format='%(levelname)s: %(message)s',
-    #                     level=verbose_level[args.verbose])
+    parser = argparse.ArgumentParser()
 
     # Add invert handler
     arguments_passed = sys.argv[1:]
