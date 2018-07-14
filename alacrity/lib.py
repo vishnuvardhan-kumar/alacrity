@@ -5,6 +5,7 @@ import logging
 import os
 import shutil
 import sys
+import subprocess
 from clint.textui import colored
 
 string_input = input
@@ -395,6 +396,74 @@ def create_starter_files(path, status):
     create_requirements(path, status)
 
 
+def report_status(status):
+    """" Reports what processes failed during creation. """
+
+    if not status['structure_created']:
+        print(colored.red("WARN : Structure was not created"))
+    if not status['gitignore_created']:
+        print(colored.red("WARN : .gitignore was not created"))
+    if not status['setup_created']:
+        print(colored.red("WARN : setup.py was not created"))
+    if not status['license_created']:
+        print(colored.red("WARN : LICENSE was not created"))
+    if not status['manifest_created']:
+        print(colored.red("WARN : MANIFEST.in was not created"))
+    if not status['makefile_created']:
+        print(colored.red("WARN : Makefile was not created"))
+    if not status['readme_created']:
+        print(colored.red("WARN : README.rst was not created"))
+    if not status['requirements_created']:
+        print(colored.red("WARN : requirements.txt was not created"))
+    if not status['tests_created']:
+        print(colored.red("WARN : test directory was not created"))
+    if not status['docs_created']:
+        print(colored.red("WARN : docs directory was not created"))
+
+
+def check_git_installed(path, status):
+    """" Check if git is installed on the system. """
+
+    command = ''
+    current_dir = os.getcwd()
+
+    if sys.platform.startswith('win'):
+        # Windows specific code
+        cmd_result = subprocess.check_output('where git'.format(command),
+                                             cwd=current_dir)
+        if cmd_result.startswith('INFO'):
+            return False
+        return True
+
+    elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
+        # Linux specific code
+        cmd_result = subprocess.check_output('which git'.format(command),
+                                             cwd=current_dir)
+        if cmd_result.startswith('which: no'):
+            return False
+        return True
+
+    else:
+        return False
+
+
 def git_init(path, status):
     """ Initiates a git repository at the path"""
-    pass
+
+    if check_git_installed(path, status):
+        print(colored.green('Do you want to initialize a git repo? (y/n)'))
+        choice = string_input()
+
+        if choice == 'y':
+            value = subprocess.check_output('git init', cwd=os.path.abspath(path))
+            print(colored.green(value))
+        elif choice == 'n':
+            print(colored.yellow('Skipping git initialization'))
+        else:
+            logging.error(" Invalid choice")
+            print(colored.yellow('INFO: Skipping git initialization'))
+
+    else:
+        print(colored.yellow('INFO: git could not be detected on this machine'))
+        print(colored.yellow('INFO: Skipping git initialization'))
+

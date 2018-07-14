@@ -6,36 +6,10 @@ import os
 from alacrity import lib
 import sys
 from clint.textui import colored
-import argparse
 
 string_input = input
 if sys.version_info.major == 2:
     string_input = raw_input
-
-
-def report_status(status):
-    """" Reports what processes failed during creation. """
-
-    if not status['structure_created']:
-        print(colored.red("WARN : Structure was not created"))
-    if not status['gitignore_created']:
-        print(colored.red("WARN : .gitignore was not created"))
-    if not status['setup_created']:
-        print(colored.red("WARN : setup.py was not created"))
-    if not status['license_created']:
-        print(colored.red("WARN : LICENSE was not created"))
-    if not status['manifest_created']:
-        print(colored.red("WARN : MANIFEST.in was not created"))
-    if not status['makefile_created']:
-        print(colored.red("WARN : Makefile was not created"))
-    if not status['readme_created']:
-        print(colored.red("WARN : README.rst was not created"))
-    if not status['requirements_created']:
-        print(colored.red("WARN : requirements.txt was not created"))
-    if not status['tests_created']:
-        print(colored.red("WARN : test directory was not created"))
-    if not status['docs_created']:
-        print(colored.red("WARN : docs directory was not created"))
 
 
 def main():
@@ -90,10 +64,10 @@ def main():
             # Create tests directory
             lib.create_tests_package(package_name, status)
 
-            # Add git init commands here
+            # Initialize git if required and available
+            lib.git_init(package_name, status)
 
-
-            report_status(status)
+            lib.report_status(status)
             print(colored.yellow("Package {} was created successfully.".format(package_name)))
         except EOFError:
             # Catch error thrown by clint.main
