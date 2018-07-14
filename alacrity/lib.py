@@ -393,3 +393,8 @@ def create_starter_files(path, status):
     create_readme(path, status)
     # requirements.txt
     create_requirements(path, status)
+
+
+def git_init(path, status):
+    """ Initiates a git repository at the path"""
+    pass
