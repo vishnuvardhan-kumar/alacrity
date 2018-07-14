@@ -12,6 +12,8 @@ string_input = input
 if sys.version_info.major == 2:
     string_input = raw_input
 
+is_64bits = sys.maxsize > 2**32
+
 filepath = os.path.abspath(__file__)
 dirpath = os.path.dirname(filepath)
 
@@ -425,20 +427,27 @@ def is_git_installed():
     """" Check if git is installed on the system. """
 
     current_dir = os.getcwd()
+    windows_dir = ''
 
     if sys.platform.startswith('win'):
         # Windows specific code
-        cmd_result = subprocess.check_output('where git',
-                                             cwd=current_dir)
+        if is_64bits:
+            windows_dir = os.path.join(os.environ['WINDIR'], 'SysWOW64')
+        else:
+            windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
+
+        full_cmd = '{}\\where.exe git'.format(windows_dir)
+        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir)
+
         if cmd_result.startswith('INFO'):
             return False
         return cmd_result
 
     elif sys.platform.startswith('linux'):
         # Linux specific code
-        cmd_result = subprocess.check_output('which git',
+        cmd_result = subprocess.check_output('/usr/bin/which git',
                                              cwd=current_dir)
-        if cmd_result.startswith('which: no'):
+        if cmd_result.startswith('/usr/bin/which: no'):
             return False
         return cmd_result
 
