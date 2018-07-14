@@ -55,8 +55,6 @@ def main():
         'docs_created': False,
     }
 
-    parser = argparse.ArgumentParser()
-
     # Add invert handler
     arguments_passed = sys.argv[1:]
 
