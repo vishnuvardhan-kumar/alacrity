@@ -421,27 +421,26 @@ def report_status(status):
         print(colored.red("WARN : docs directory was not created"))
 
 
-def check_git_installed(path, status):
+def is_git_installed():
     """" Check if git is installed on the system. """
 
-    command = ''
     current_dir = os.getcwd()
 
     if sys.platform.startswith('win'):
         # Windows specific code
-        cmd_result = subprocess.check_output('where git'.format(command),
+        cmd_result = subprocess.check_output('where git',
                                              cwd=current_dir)
         if cmd_result.startswith('INFO'):
             return False
-        return True
+        return cmd_result
 
-    elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
+    elif sys.platform.startswith('linux'):
         # Linux specific code
-        cmd_result = subprocess.check_output('which git'.format(command),
+        cmd_result = subprocess.check_output('which git',
                                              cwd=current_dir)
         if cmd_result.startswith('which: no'):
             return False
-        return True
+        return cmd_result
 
     else:
         return False
@@ -450,12 +449,13 @@ def check_git_installed(path, status):
 def git_init(path, status):
     """ Initiates a git repository at the path"""
 
-    if check_git_installed(path, status):
+    git_path = is_git_installed()
+    if git_path:
         print(colored.green('Do you want to initialize a git repo? (y/n)'))
         choice = string_input()
 
         if choice == 'y':
-            value = subprocess.check_output('git init', cwd=os.path.abspath(path))
+            value = subprocess.check_output('{} init'.format(git_path), cwd=os.path.abspath(path))
             print(colored.green(value))
         elif choice == 'n':
             print(colored.yellow('Skipping git initialization'))
@@ -466,4 +466,3 @@ def git_init(path, status):
     else:
         print(colored.yellow('INFO: git could not be detected on this machine'))
         print(colored.yellow('INFO: Skipping git initialization'))
-
