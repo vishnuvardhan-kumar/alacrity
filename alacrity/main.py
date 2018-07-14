@@ -90,6 +90,8 @@ def main():
             # Create tests directory
             lib.create_tests_package(package_name, status)
 
+            # Add git init commands here
+            
             report_status(status)
             print(colored.yellow("Package {} was created successfully.".format(package_name)))
         except EOFError:
