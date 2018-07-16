@@ -437,8 +437,7 @@ def is_git_installed():
             windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
 
         full_cmd = '{}\\where.exe git'.format(windows_dir)
-        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir)
-
+        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip()
         if cmd_result.startswith('INFO'):
             return False
         return cmd_result
@@ -459,12 +458,13 @@ def git_init(path, status):
     """ Initiates a git repository at the path"""
 
     git_path = is_git_installed()
+
     if git_path:
-        print(colored.green('Do you want to initialize a git repo? (y/n)'))
+        print(colored.green('Do you want to initialize a Git repository? (y/n)'))
         choice = string_input()
 
         if choice == 'y':
-            value = subprocess.check_output('{} init'.format(git_path), cwd=os.path.abspath(path))
+            value = subprocess.check_output([git_path, 'init', path], shell=True)
             print(colored.green(value))
         elif choice == 'n':
             print(colored.yellow('Skipping git initialization'))
