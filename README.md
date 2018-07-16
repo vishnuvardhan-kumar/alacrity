@@ -18,6 +18,8 @@ Answer some questions interactively, and poof, your package structure is ready.
 
 Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
 
+#### Git capabilities are not fully functional yet.
+
 A sample alacrity flow:
 
 ```
