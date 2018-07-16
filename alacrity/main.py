@@ -53,6 +53,7 @@ def main():
                     sys.exit()
                 else:
                     logging.error(" Invalid choice")
+                    sys.exit()
 
             # This structure could be optimized further
             # Create the initial structure

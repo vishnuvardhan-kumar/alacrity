@@ -464,7 +464,7 @@ def git_init(path, status):
         choice = string_input()
 
         if choice == 'y':
-            value = subprocess.check_output([git_path, 'init', path], shell=True)
+            value = subprocess.check_output([git_path, 'init', path])
             print(colored.green(value))
         elif choice == 'n':
             print(colored.yellow('Skipping git initialization'))
