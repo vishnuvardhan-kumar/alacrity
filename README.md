@@ -18,51 +18,7 @@ Answer some questions interactively, and poof, your package structure is ready.
 
 Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
 
-#### Git capabilities are not fully functional yet.
 
 A sample alacrity flow:
 
-```
- Z:\> alacrity
- Enter the name of the package:
- my_package
- Enter the initial version:
- 0.1.0
- Enter a brief description:
- My new Python package!
- Enter author name:
- John Doe
- Enter author email:
- johndoe@example.com
- Choose a license: [mit/apache/gpl]
- mit
- Enter year for license:
- 2018
- Package my_package was created successfully.
- 
- Z:\> tree /f mypackage
-mypackage
-│   .gitignore
-│   LICENSE
-│   Makefile
-│   MANIFEST.in
-│   README.rst
-│   requirements.txt
-│   setup.py
-│
-├───docs
-│       conf.py
-│       index.rst
-│       make.bat
-│       Makefile
-│
-├───my_package
-│       core.py
-│       lib.py
-│       __init__.py
-│
-└───tests
-        test_lib.py
-        __init__.py
-
-```
+![Image](https://github.com/vishnuvardhan-kumar/alacrity/blob/master/alacrity/tests/scr.png?raw=true)
