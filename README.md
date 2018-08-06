@@ -18,6 +18,9 @@ Answer some questions interactively, and poof, your package structure is ready.
 
 Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
 
+Tested to work on :
+ - Windows (and Cygwin)
+ - Linux (anything except Android Terminal Emulators)
 
 A sample alacrity flow:
 
