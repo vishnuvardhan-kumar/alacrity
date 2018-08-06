@@ -1,5 +1,5 @@
 from __future__ import print_function
-from __future__ import division, absolute_import
+from __future__ import division, absolute_import, unicode_literals
 
 import logging
 import os
@@ -437,7 +437,7 @@ def is_git_installed():
             windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
 
         full_cmd = '{}\\where.exe git'.format(windows_dir)
-        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip()
+        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip().decode("utf-8")
         if cmd_result.startswith('INFO'):
             return False
         return cmd_result
@@ -445,9 +445,10 @@ def is_git_installed():
     elif sys.platform.startswith('linux'):
         # Linux specific code
         cmd_result = subprocess.check_output('/usr/bin/which git',
-                                             cwd=current_dir)
+                                             cwd=current_dir).decode("utf-8")
         if cmd_result.startswith('/usr/bin/which: no'):
             return False
+        
         return cmd_result
 
     else:
@@ -464,7 +465,9 @@ def git_init(path, status):
         choice = string_input()
 
         if choice == 'y':
-            value = subprocess.check_output([git_path, 'init', path])
+            command = "{} init {}".format(str(git_path), path)
+            print(command)
+            value = subprocess.check_output(command).decode("utf-8")
             print(colored.green(value))
         elif choice == 'n':
             print(colored.yellow('Skipping git initialization'))
