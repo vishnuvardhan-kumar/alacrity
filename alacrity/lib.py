@@ -466,7 +466,6 @@ def git_init(path, status):
 
         if choice == 'y':
             command = "{} init {}".format(str(git_path), path)
-            print(command)
             value = subprocess.check_output(command).decode("utf-8")
             print(colored.green(value))
         elif choice == 'n':
@@ -478,3 +477,6 @@ def git_init(path, status):
     else:
         print(colored.yellow('INFO: git could not be detected on this machine'))
         print(colored.yellow('INFO: Skipping git initialization'))
+
+if __name__ == '__main__':
+    print("Lib.py worked.")
