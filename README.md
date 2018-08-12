@@ -2,7 +2,6 @@
 
 [![PyPI version](https://badge.fury.io/py/alacrity.svg)](https://badge.fury.io/py/alacrity)
 [![Build Status](https://travis-ci.org/vishnuvardhan-kumar/alacrity.svg?branch=master)](https://travis-ci.org/vishnuvardhan-kumar/alacrity)
-[![CodeFactor](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/badge/master)](https://www.codefactor.io/repository/github/vishnuvardhan-kumar/alacrity/overview/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 

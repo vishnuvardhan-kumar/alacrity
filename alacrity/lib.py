@@ -436,17 +436,23 @@ def is_git_installed():
         else:
             windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
 
-        full_cmd = '{}\\where.exe git'.format(windows_dir)
-        cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip().decode("utf-8")
-        if cmd_result.startswith('INFO'):
+        try:
+            full_cmd = '{}\\where.exe git'.format(windows_dir)
+            cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip().decode("utf-8")
+            if cmd_result.startswith('INFO'):
+                return False
+            return cmd_result
+        except OSError:
             return False
-        return cmd_result
 
     elif sys.platform.startswith('linux'):
         # Linux specific code
-        cmd_result = subprocess.check_output('/usr/bin/which git',
-                                             cwd=current_dir).decode("utf-8")
-        if cmd_result.startswith('/usr/bin/which: no'):
+        try:
+            cmd_result = subprocess.check_output('which git').decode("utf-8")
+        except OSError:
+            cmd_result = ""
+
+        if cmd_result.startswith('/usr/bin/which: no') or not cmd_result:
             return False
         
         return cmd_result
