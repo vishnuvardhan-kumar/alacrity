@@ -11,7 +11,6 @@ string_input = input
 if sys.version_info.major == 2:
     string_input = raw_input
 
-
 def main():
     """ Starts a new Python package instance"""
 
