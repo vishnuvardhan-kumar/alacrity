@@ -448,13 +448,14 @@ def is_git_installed():
     elif sys.platform.startswith('linux'):
         # Linux specific code
         try:
-            cmd_result = subprocess.check_output('which git').decode("utf-8")
+            true_cmd_result = subprocess.check_output(['which', 'git'])
+            cmd_result = true_cmd_result.decode("utf-8").rstrip()
         except OSError:
             cmd_result = ""
 
-        if cmd_result.startswith('/usr/bin/which: no') or not cmd_result:
+        if 'no git in' in cmd_result or not cmd_result:
             return False
-        
+
         return cmd_result
 
     else:
@@ -471,7 +472,7 @@ def git_init(path, status):
         choice = string_input()
 
         if choice == 'y':
-            command = "{} init {}".format(str(git_path), path)
+            command = [git_path, 'init', path]
             value = subprocess.check_output(command).decode("utf-8")
             print(colored.green(value))
         elif choice == 'n':
