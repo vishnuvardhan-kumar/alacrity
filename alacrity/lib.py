@@ -8,18 +8,19 @@ import sys
 import subprocess
 from clint.textui import colored
 
-string_input = input
-if sys.version_info.major == 2:
-    string_input = raw_input
-
 is_64bits = sys.maxsize > 2**32
 
 filepath = os.path.abspath(__file__)
 dirpath = os.path.dirname(filepath)
+pythonpath = sys.executable
 
 
 def rebuild_persistence(name='persist.ini'):
-    """ Rebuild the persist.ini file if missing/corrupted """
+    """
+    Rebuild the persistence of the alacrity subsystem configuration
+    :param name: The name of the file storing persistence
+    :return: persist_path, options from the configuration
+    """
 
     # Default values for persistence
     options = {'invert': False,
@@ -30,15 +31,15 @@ def rebuild_persistence(name='persist.ini'):
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
-        print(colored.red("WARN : persist.ini exists, destroy and clean-make (y/n)"))
+        print(colored.red("WARN : persist.ini exists, "
+                          "destroy and clean-make (y/n)"))
 
-        choice = string_input()
+        choice = input()
 
         if choice == 'y':
             os.remove(persist_path)
         elif choice == 'n':
             print(colored.green("Clean make cancelled, aborting."))
-            sys.exit()
         else:
             logging.error(" Invalid choice")
 
@@ -59,7 +60,13 @@ def rebuild_persistence(name='persist.ini'):
 
 
 def read_from_paths(rel_path, abs_path):
-    """ Utility function to read from multiple paths"""
+    """
+    Utility function to read paths (relative and absolute)
+    :param rel_path: The relative path of the file
+    :param abs_path: The absolute path of the file
+    :return: rel_path or abs_path depending on availability and platform
+    """
+
     try:
         with open(rel_path, "r") as man:
             doc = man.read()
@@ -70,7 +77,12 @@ def read_from_paths(rel_path, abs_path):
 
 
 def remove_package(path):
-    """" Clear the Python package in the given path for testing. """
+    """
+    Remove the package present in path
+    :param path: The path to create the git repo at
+    :return: None
+    """
+
     try:
         shutil.rmtree(path)
     except OSError:
@@ -78,7 +90,12 @@ def remove_package(path):
 
 
 def create_package_structure(package_name, status):
-    """" Creates the initial package structure """
+    """
+    Initialize a package structure in the current directory
+    :param package_name: The name of the package (and the directory)
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     try:
         os.mkdir(package_name)
@@ -101,15 +118,19 @@ def create_package_structure(package_name, status):
 
         status['structure_created'] = True
 
-    except IOError:
-        logging.error(".py file creation failed at subdirectory.")
     except OSError:
         logging.error("package directory already exists")
         logging.error("Enable clean_make for complete reconstruction")
+        logging.error(".py file creation failed at subdirectory.")
 
 
 def create_docs_directory(path, status):
-    """" Creates a docs directory with some starter files """
+    """
+    Create a docs package at path
+    :param path: The path to create the docs package at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     try:
         # Create docs directory
@@ -130,7 +151,12 @@ def create_docs_directory(path, status):
 
 
 def create_tests_package(path, status):
-    """" Creates a tests directory with an __init__.py """
+    """
+    Create a tests package at path
+    :param path: The path to create the tests package at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     try:
         # Create tests directory
@@ -145,12 +171,16 @@ def create_tests_package(path, status):
 
     except IOError:
         logging.error("py file creation failed at tests directory")
-    except OSError:
         logging.error("Enable clean_make for complete reconstruction")
 
 
 def create_git_ignore(path, status):
-    """" Creates a Python .gitignore file in the path"""
+    """
+    Initialize a .gitignore file at path
+    :param path: The path to create the gitignore at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/gitignore.txt")
     rel_path = os.path.join(dirpath, "gitignore.txt")
@@ -172,7 +202,12 @@ def create_git_ignore(path, status):
 
 
 def create_manifest(path, status):
-    """" Creates a MANIFEST.in file in the path"""
+    """
+    Create a manifest at path
+    :param path: The path to create the manifest at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/MANIFEST.in")
     rel_path = os.path.join(dirpath, "MANIFEST.in")
@@ -194,7 +229,12 @@ def create_manifest(path, status):
 
 
 def create_requirements(path, status):
-    """" Creates a requirements.txt file in the path"""
+    """
+    Create a requirements.txt file at path
+    :param path: The path to create the requirements.txt at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/requirements.txt")
     rel_path = os.path.join(dirpath, "requirements.txt")
@@ -216,7 +256,12 @@ def create_requirements(path, status):
 
 
 def create_readme(path, status):
-    """" Creates a README.rst file in the path"""
+    """
+    Create a README.md at path
+    :param path: The path to create the README at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/README.rst")
     rel_path = os.path.join(dirpath, "README.rst")
@@ -252,7 +297,13 @@ def create_makefile(path, status):
 
 
 def create_setup(path, status, test=False):
-    """" Create a setup.py file in the path"""
+    """
+    Create a setup.py in the package structure in path
+    :param path: The path to create the setup at
+    :param status: Dictionary containing the workflow status
+    :param test: Whether to run in test mode
+    :return: None
+    """
 
     package_name = path
     version = desc = ""
@@ -260,16 +311,16 @@ def create_setup(path, status, test=False):
 
     if not test:
         print(colored.green("Enter the initial version:"))
-        version = string_input()
+        version = input()
 
         print(colored.green("Enter a brief description:"))
-        desc = string_input()
+        desc = input()
 
         print(colored.green("Enter author name:"))
-        author = string_input()
+        author = input()
 
         print(colored.green("Enter author email:"))
-        author_email = string_input()
+        author_email = input()
 
     abs_path = os.path.join(dirpath, "starters/setup.py")
     rel_path = os.path.join(dirpath, "setup.py")
@@ -301,7 +352,14 @@ def create_setup(path, status, test=False):
 
 
 def mit_lic(path, name, year, status):
-    """ Create a MIT license """
+    """
+    Write a MIT license at the path
+    :param path: The path to create the license at
+    :param name: The name of the licensee
+    :param year: The year of the license
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/MIT_LICENSE")
     rel_path = os.path.join(dirpath, "MIT_LICENSE")
@@ -321,7 +379,14 @@ def mit_lic(path, name, year, status):
 
 
 def apa_lic(path, name, year, status):
-    """ Create an Apache2 license """
+    """
+    Write a Apache license at the path
+    :param path: The path to create the license at
+    :param name: The name of the licensee
+    :param year: The year of the license
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/APACHE2_LICENSE")
     rel_path = os.path.join(dirpath, "APACHE2_LICENSE")
@@ -341,7 +406,12 @@ def apa_lic(path, name, year, status):
 
 
 def gpl_lic(path, status):
-    """ Create a GPL license """
+    """
+    Write a GPLv3 license at the path
+    :param path: The path to create the license at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     abs_path = os.path.join(dirpath, "starters/GPL_LICENSE")
     rel_path = os.path.join(dirpath, "GPL_LICENSE")
@@ -358,15 +428,21 @@ def gpl_lic(path, status):
 
 
 def create_license(path, full_name, status):
-    """" Prompt user for choice of license and create"""
+    """
+    Create a license file in the given file
+    :param path: The path to create the license at
+    :param full_name: The full name of the licensee
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     print(colored.green("Choose a license: [mit/apache/gpl3]"))
-    license_name = string_input()
+    license_name = input()
 
     fullname = full_name
 
     print(colored.green("Enter year for license:"))
-    year = string_input()
+    year = input()
 
     if license_name == 'mit':
         mit_lic(path, fullname, year, status)
@@ -380,7 +456,12 @@ def create_license(path, full_name, status):
 
 
 def create_starter_files(path, status):
-    """" Create and place various files in the package"""
+    """
+    Create and place various starter files in the structure
+    :param path: The path to create the starter files at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     # Create standard Python .gitignore
     create_git_ignore(path, status)
@@ -399,35 +480,24 @@ def create_starter_files(path, status):
 
 
 def report_status(status):
-    """" Reports what processes failed during creation. """
+    """
+    Reports if anything unexpected happened during package creation
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
-    if not status['structure_created']:
-        print(colored.red("WARN : Structure was not created"))
-    if not status['gitignore_created']:
-        print(colored.red("WARN : .gitignore was not created"))
-    if not status['setup_created']:
-        print(colored.red("WARN : setup.py was not created"))
-    if not status['license_created']:
-        print(colored.red("WARN : LICENSE was not created"))
-    if not status['manifest_created']:
-        print(colored.red("WARN : MANIFEST.in was not created"))
-    if not status['makefile_created']:
-        print(colored.red("WARN : Makefile was not created"))
-    if not status['readme_created']:
-        print(colored.red("WARN : README.rst was not created"))
-    if not status['requirements_created']:
-        print(colored.red("WARN : requirements.txt was not created"))
-    if not status['tests_created']:
-        print(colored.red("WARN : test directory was not created"))
-    if not status['docs_created']:
-        print(colored.red("WARN : docs directory was not created"))
+    for task in status.keys():
+        if not status[task]:
+            print(colored.red(f"WARN : Task {task} failed"))
 
 
 def is_git_installed():
-    """" Check if git is installed on the system. """
+    """
+    Check if git is installed and availabe in the system path
+    :return: True if git is found else False
+    """
 
     current_dir = os.getcwd()
-    windows_dir = ''
 
     if sys.platform.startswith('win'):
         # Windows specific code
@@ -438,7 +508,8 @@ def is_git_installed():
 
         try:
             full_cmd = '{}\\where.exe git'.format(windows_dir)
-            cmd_result = subprocess.check_output(full_cmd, cwd=current_dir).strip().decode("utf-8")
+            cmd_result = subprocess.check_output(
+                full_cmd, cwd=current_dir).strip().decode("utf-8")
             if cmd_result.startswith('INFO'):
                 return False
             return cmd_result
@@ -463,13 +534,19 @@ def is_git_installed():
 
 
 def git_init(path, status):
-    """ Initiates a git repository at the path"""
+    """
+    Initialize a git repository at path (searches for git in system path)
+    :param path: The path to create the git repo at
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
 
     git_path = is_git_installed()
 
     if git_path:
-        print(colored.green('Do you want to initialize a Git repository? (y/n)'))
-        choice = string_input()
+        print(colored.green('Do you want to initialize a Git repository? '
+                            '(y/n)'))
+        choice = input()
 
         if choice == 'y':
             command = [git_path, 'init', path]
@@ -482,8 +559,55 @@ def git_init(path, status):
             print(colored.yellow('INFO: Skipping git initialization'))
 
     else:
-        print(colored.yellow('INFO: git could not be detected on this machine'))
+        print(colored.yellow('INFO: git could not be detected on '
+                             'this machine'))
         print(colored.yellow('INFO: Skipping git initialization'))
+
+    status['git_initialized'] = True
+
+
+def venv_init(path, status):
+    """
+    Initialize a virtual environment at path (defaults to venv in Python 3.3+)
+    :param path: The path in which the virtualenv will exist
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
+
+    command = ''
+
+    # Check if venv is available
+    is_python3_3 = sys.version_info.major == 3 and sys.version_info.minor >= 3
+
+    if is_python3_3:
+        command = [pythonpath, '-m', 'venv']
+    else:
+        logging.error(" venv could not be detected or executed.")
+        print(colored.yellow('INFO: Skipping venv initialization'))
+
+    # Start process
+    print(colored.green('Do you want to initialize a virtual environment? '
+                        '(y/n)'))
+    choice = input()
+
+    if choice == 'y':
+        try:
+            print(colored.green('Enter a name for the virtual environment: '))
+            venv_name = input()
+            command.append(f"{path}/{venv_name}")
+            subprocess.check_output(command).decode("utf-8")
+        except subprocess.CalledProcessError as e:
+            logging.error(e)
+        else:
+            print(colored.green("Virtual environment setup complete"))
+            status['venv_created'] = True
+    elif choice == 'n':
+        print(colored.yellow('Skipping virtual environment initialization'))
+        status['venv_created'] = True
+    else:
+        logging.error(" Invalid choice")
+        print(colored.yellow('INFO: Skipping venv initialization'))
+
 
 if __name__ == '__main__':
     print("Lib.py worked.")
