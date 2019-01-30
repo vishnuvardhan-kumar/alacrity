@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: alacrity
-Version: 1.0.9
+Version: 1.2.0
 Summary: Quickstart your Python development with CLI package templating
 Home-page: UNKNOWN
 Author: Vishnuvardhan Kumar
@@ -34,7 +34,6 @@ Description: # alacrity
         ![Image](https://github.com/vishnuvardhan-kumar/alacrity/blob/master/alacrity/tests/scr.png?raw=true)
         
 Platform: UNKNOWN
-Classifier: Programming Language :: Python :: 2.7
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent

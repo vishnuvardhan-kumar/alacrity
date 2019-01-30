@@ -1,14 +1,15 @@
 #!/bin/python
 
+import importlib
 import logging
 import os
 import sys
 import argparse
 import shutil
-
-from alacrity import lib
-from alacrity import version
 from clint.textui import colored
+
+lib = importlib.import_module('lib', 'alacrity')
+version = importlib.import_module('version', 'alacrity')
 
 
 def main():

@@ -1,8 +1,10 @@
 # Unittests for the lib.py functions to be placed here
 
 import unittest
-from alacrity import lib
+import importlib
 import os
+
+lib = importlib.import_module('lib', 'alacrity')
 
 
 class TestParser(unittest.TestCase):
@@ -221,6 +223,7 @@ class TestParser(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.licpath))
 
         lib.remove_package(self.path)
+
 
 if __name__ == '__main__':
     unittest.main()

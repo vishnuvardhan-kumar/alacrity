@@ -4,8 +4,9 @@ README.md
 requirements.txt
 setup.py
 alacrity/__init__.py
+alacrity/alacrity.py
 alacrity/lib.py
-alacrity/main.py
+alacrity/version.py
 alacrity.egg-info/PKG-INFO
 alacrity.egg-info/SOURCES.txt
 alacrity.egg-info/dependency_links.txt
