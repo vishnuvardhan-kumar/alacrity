@@ -1,10 +1,11 @@
 # Unittests for the lib.py functions to be placed here
 
 import unittest
-import importlib
 import os
+import sys
 
-lib = importlib.import_module('lib', 'alacrity')
+sys.path.append('../alacrity')
+from alacrity import lib
 
 
 class TestParser(unittest.TestCase):
