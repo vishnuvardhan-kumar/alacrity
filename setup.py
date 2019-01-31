@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=['clint'],
+    install_requires=['clint', 'Sphinx'],
     entry_points={
           'console_scripts': [
               'alacrity = alacrity.core:main'
