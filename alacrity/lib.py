@@ -487,7 +487,7 @@ def report_status(status):
 
     for task in status.keys():
         if not status[task]:
-            print(colored.red(f"WARN : Task {} failed".format(task)))
+            print(colored.red("WARN : Task {} failed".format(task)))
 
 
 def is_git_installed():
