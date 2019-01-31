@@ -57,7 +57,7 @@ def main():
     try:
         try:
             package_name = args.package_name
-            check_is_file = os.path.isfile(f"{package_name}/{0}/__init__.py")
+            check_is_file = os.path.isfile("{0}/{0}/__init__.py".format(package_name))
 
             # Check for clean_make
             if os.path.isdir(package_name) or check_is_file:
@@ -90,8 +90,8 @@ def main():
 
             lib.report_status(status)
 
-            print(colored.yellow(f"Package {package_name} was created "
-                                 f"successfully."))
+            print(colored.yellow("Package {} was created "
+                                 "successfully.".format(package_name)))
         except EOFError:
             # Catch error thrown by clint.main
             print(colored.yellow("Ctrl+C : Aborting package creation."))

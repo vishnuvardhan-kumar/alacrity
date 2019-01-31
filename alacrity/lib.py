@@ -487,7 +487,7 @@ def report_status(status):
 
     for task in status.keys():
         if not status[task]:
-            print(colored.red(f"WARN : Task {task} failed"))
+            print(colored.red(f"WARN : Task {} failed".format(task)))
 
 
 def is_git_installed():
@@ -593,7 +593,7 @@ def venv_init(path, status):
         try:
             print(colored.green('Enter a name for the virtual environment: '))
             venv_name = input()
-            command.append(f"{path}/{venv_name}")
+            command.append("{}/{}".format(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
         except subprocess.CalledProcessError as e:
             logging.error(e)
