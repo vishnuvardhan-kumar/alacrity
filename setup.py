@@ -16,12 +16,12 @@ setuptools.setup(
     install_requires=['clint'],
     entry_points={
           'console_scripts': [
-              'alacrity = alacrity.main:main'
+              'alacrity = alacrity.core:main'
           ]
       },
     include_package_data=True,
     classifiers=(
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4+",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
