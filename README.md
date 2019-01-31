@@ -30,7 +30,7 @@ Features:
 Tested to work on :
  - Windows (and Cygwin)
  - Linux
- - macOs is not officially supported, but it should work with a few hacks
+ - macOS is not officially supported, but it should work with a few hacks
 
 A sample alacrity flow:
 ![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
