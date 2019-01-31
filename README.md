@@ -22,21 +22,5 @@ Tested to work on :
  - Linux (anything except Android Terminal Emulators)
 
 A sample alacrity flow:
-```
-(venv) sc4r@fsx> alacrity testpackage
-[*] Enter the initial version: 0.1.0
-[*] Enter a brief description: This is a test package
-[*] Enter author name: Vishnuvardhan S
-[*] Enter author email: test@abc.com
-[*] Choose a license [mit/apache/gpl3]: mit
-[*] Enter year for license: 2019
-[*] Do you want to initialize a Git repository? (y/n): y
-[*] Initialized empty Git repository in /alacrity-test/venv/.git
-[*] Do you want to initialize a virtual environment? (y/n): y
-[*] Enter a name for the virtual environment: testenv
-[*] Virtual environment setup complete
-[|]
-[*] Package testpackage was created successfully.
-
-(venv) sc4r@fsx>
+![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
 ```
