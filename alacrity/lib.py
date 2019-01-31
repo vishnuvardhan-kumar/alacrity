@@ -28,17 +28,17 @@ def rebuild_persistence(name='persist.ini', silent=False):
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
-        print(colored.red("WARN : persist.ini exists, "
-                          "destroy and clean-make (y/n)"))
+        print(colored.red("[!] WARN : persist.ini exists, "
+                          "destroy and clean-make (y/n) : "), end="")
 
         choice = input()
 
         if choice == 'y':
             os.remove(persist_path)
         elif choice == 'n':
-            print(colored.green("Clean make cancelled, aborting."))
+            print(colored.green("[*] Clean make persistence cancelled"))
         else:
-            logging.error(" Invalid choice")
+            logging.error(colored.red(" Invalid choice"))
 
     try:
         with open(persist_path, "w") as file_object:
@@ -50,10 +50,10 @@ def rebuild_persistence(name='persist.ini', silent=False):
                 file_object.write('{}={}\n'.format(option, options[option]))
             
             if not silent:
-                print(colored.yellow("Persistence was rebuilt successfully."))
+                print(colored.yellow("[*] Persistence was rebuilt successfully."))
 
     except IOError:
-        logging.error("The persist.ini file could not be created.")
+        logging.error(colored.red("[!] The persist.ini file could not be created."))
 
     return persist_path, options
 
@@ -85,7 +85,7 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error("The path %s could not be removed", path)
+        logging.error(colored.red("The path %s could not be removed", path))
 
 
 def create_package_structure(package_name, status):
@@ -118,9 +118,9 @@ def create_package_structure(package_name, status):
         status['structure_created'] = True
 
     except OSError:
-        logging.error("package directory already exists")
-        logging.error("Enable clean_make for complete reconstruction")
-        logging.error(".py file creation failed at subdirectory.")
+        logging.error(colored.red("package directory already exists"))
+        logging.error(colored.red("Enable clean_make for complete reconstruction"))
+        logging.error(colored.red(".py file creation failed at subdirectory."))
 
 
 def create_docs_directory(path, status):
@@ -145,8 +145,8 @@ def create_docs_directory(path, status):
         status['docs_created'] = True
 
     except OSError:
-        logging.error("%s/docs directory already exists", path)
-        logging.error("Enable clean_make for complete reconstruction")
+        logging.error(colored.red("%s/docs directory already exists", path))
+        logging.error(colored.red("Enable clean_make for complete reconstruction"))
 
 
 def create_tests_package(path, status):
@@ -169,8 +169,8 @@ def create_tests_package(path, status):
         status['tests_created'] = True
 
     except IOError:
-        logging.error("py file creation failed at tests directory")
-        logging.error("Enable clean_make for complete reconstruction")
+        logging.error(colored.red("py file creation failed at tests directory"))
+        logging.error(colored.red("Enable clean_make for complete reconstruction"))
 
 
 def create_git_ignore(path, status):
@@ -197,7 +197,7 @@ def create_git_ignore(path, status):
         status['gitignore_created'] = True
 
     except IOError:
-        logging.error(" .gitignore creation failed")
+        logging.error(colored.red(" .gitignore creation failed"))
 
 
 def create_manifest(path, status):
@@ -224,7 +224,7 @@ def create_manifest(path, status):
         status['manifest_created'] = True
 
     except IOError:
-        logging.error(" MANIFEST.in creation failed")
+        logging.error(colored.red(" MANIFEST.in creation failed"))
 
 
 def create_requirements(path, status):
@@ -251,7 +251,7 @@ def create_requirements(path, status):
         status['requirements_created'] = True
 
     except IOError:
-        logging.error(" requirements.txt creation failed")
+        logging.error(colored.red(" requirements.txt creation failed"))
 
 
 def create_readme(path, status):
@@ -281,7 +281,7 @@ def create_readme(path, status):
         status['readme_created'] = True
 
     except IOError:
-        logging.error(" README.rst creation failed.")
+        logging.error(colored.red(" README.rst creation failed."))
 
 
 def create_makefile(path, status):
@@ -292,7 +292,7 @@ def create_makefile(path, status):
         status['makefile_created'] = True
 
     except IOError:
-        logging.error(" Makefile creation failed.")
+        logging.error(colored.red(" Makefile creation failed."))
 
 
 def create_setup(path, status, test=False):
@@ -309,16 +309,16 @@ def create_setup(path, status, test=False):
     author = author_email = ""
 
     if not test:
-        print(colored.green("Enter the initial version:"))
+        print(colored.green("[*] Enter the initial version: "), end="")
         version = input()
 
-        print(colored.green("Enter a brief description:"))
+        print(colored.green("[*] Enter a brief description: "), end="")
         desc = input()
 
-        print(colored.green("Enter author name:"))
+        print(colored.green("[*] Enter author name: "), end="")
         author = input()
 
-        print(colored.green("Enter author email:"))
+        print(colored.green("[*] Enter author email: "), end="")
         author_email = input()
 
     abs_path = os.path.join(dirpath, "starters/setup.py")
@@ -345,7 +345,7 @@ def create_setup(path, status, test=False):
         status['setup_created'] = True
 
     except IOError:
-        logging.error(" setup.py creation failed.")
+        logging.error(colored.red(" setup.py creation failed."))
 
     return author
 
@@ -374,7 +374,7 @@ def mit_lic(path, name, year, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(" LICENSE creation failed.")
+        logging.error(colored.red(" LICENSE creation failed."))
 
 
 def apa_lic(path, name, year, status):
@@ -401,7 +401,7 @@ def apa_lic(path, name, year, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(" LICENSE creation failed.")
+        logging.error(colored.red(" LICENSE creation failed."))
 
 
 def gpl_lic(path, status):
@@ -423,7 +423,7 @@ def gpl_lic(path, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(" LICENSE creation failed.")
+        logging.error(colored.red(" LICENSE creation failed."))
 
 
 def create_license(path, full_name, status):
@@ -435,12 +435,12 @@ def create_license(path, full_name, status):
     :return: None
     """
 
-    print(colored.green("Choose a license: [mit/apache/gpl3]"))
+    print(colored.green("[*] Choose a license [mit/apache/gpl3]: "), end="")
     license_name = input()
 
     fullname = full_name
 
-    print(colored.green("Enter year for license:"))
+    print(colored.green("[*] Enter year for license: "), end="")
     year = input()
 
     if license_name == 'mit':
@@ -450,8 +450,10 @@ def create_license(path, full_name, status):
     elif license_name == 'gpl3':
         gpl_lic(path, status)
     else:
-        logging.error(" Invalid license name.")
-        logging.info(" Skipping LICENSE creation")
+        print(colored.red("[!] Invalid license name."))
+        print(colored.yellow("[>] Skipping license creation"))
+        logging.error(colored.red("[!] Invalid license name."))
+        logging.info(colored.red("[>] Skipping license creation"))
 
 
 def create_starter_files(path, status):
@@ -487,7 +489,7 @@ def report_status(status):
 
     for task in status.keys():
         if not status[task]:
-            print(colored.red("WARN : Task {} failed".format(task)))
+            print(colored.red("[!] WARN : Task {} failed".format(task)))
 
 
 def is_git_installed():
@@ -543,24 +545,29 @@ def git_init(path, status):
     git_path = is_git_installed()
 
     if git_path:
-        print(colored.green('Do you want to initialize a Git repository? '
-                            '(y/n)'))
+        print(colored.green('[*] Do you want to initialize a Git repository? '
+                            '(y/n) : '), end="")
         choice = input()
 
         if choice == 'y':
             command = [git_path, 'init', path]
-            value = subprocess.check_output(command).decode("utf-8")
-            print(colored.green(value))
+            try:
+                value = subprocess.check_output(command).decode("utf-8")
+            except subprocess.CalledProcessError:
+                print(colored.red("[!] git initialization subprocess failed, check permissions"))
+            else:
+                print(colored.green("[*] Initialized empty git repository in {}/.git".format(path)))
         elif choice == 'n':
-            print(colored.yellow('Skipping git initialization'))
+            print(colored.yellow('[>] Skipping git initialization'))
         else:
-            logging.error(" Invalid choice")
-            print(colored.yellow('INFO: Skipping git initialization'))
+            logging.error(colored.red(" Invalid choice"))
+            print(colored.red("[!] Invalid choice"))
+            print(colored.yellow('[>] Skipping git initialization'))
 
     else:
-        print(colored.yellow('INFO: git could not be detected on '
+        print(colored.yellow('[!] git could not be detected on '
                              'this machine'))
-        print(colored.yellow('INFO: Skipping git initialization'))
+        print(colored.yellow('[>] Skipping git initialization'))
 
     status['git_initialized'] = True
 
@@ -581,31 +588,32 @@ def venv_init(path, status):
     if is_python3_3:
         command = [pythonpath, '-m', 'venv']
     else:
-        logging.error(" venv could not be detected or executed.")
-        print(colored.yellow('INFO: Skipping venv initialization'))
+        logging.error(colored.red("[!] venv could not be detected or executed."))
+        print(colored.yellow('[>] Skipping venv initialization'))
 
     # Start process
-    print(colored.green('Do you want to initialize a virtual environment? '
-                        '(y/n)'))
+    print(colored.green('[*] Do you want to initialize a virtual environment? '
+                        '(y/n): ' ), end="")
     choice = input()
 
     if choice == 'y':
         try:
-            print(colored.green('Enter a name for the virtual environment: '))
+            print(colored.green('[*] Enter a name for the virtual environment: '), end="")
             venv_name = input()
             command.append("{}/{}".format(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
         except subprocess.CalledProcessError as e:
             logging.error(e)
         else:
-            print(colored.green("Virtual environment setup complete"))
+            print(colored.green("[*] Virtual environment setup complete"))
             status['venv_created'] = True
     elif choice == 'n':
-        print(colored.yellow('Skipping virtual environment initialization'))
+        print(colored.yellow('[>] Skipping virtual environment initialization'))
         status['venv_created'] = True
     else:
-        logging.error(" Invalid choice")
-        print(colored.yellow('INFO: Skipping venv initialization'))
+        logging.error(colored.red(" Invalid choice"))
+        print(colored.red("[!] Invalid choice"))
+        print(colored.yellow('[>] Skipping venv initialization'))
 
 
 if __name__ == '__main__':

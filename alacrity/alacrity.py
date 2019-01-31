@@ -8,8 +8,18 @@ import argparse
 import shutil
 from clint.textui import colored
 
-lib = importlib.import_module('lib', 'alacrity')
-version = importlib.import_module('version', 'alacrity')
+try:
+    from alacrity import lib
+except ImportError:    
+    lib = importlib.import_module('lib', '../alacrity')
+
+try:
+    from alacrity import version
+except ImportError:
+    version = importlib.import_module('version', '../alacrity')
+
+# Basic logging setup
+logging.basicConfig(level=logging.CRITICAL)
 
 
 def main():
@@ -61,18 +71,19 @@ def main():
 
             # Check for clean_make
             if os.path.isdir(package_name) or check_is_file:
-                print(colored.red("A package by that name already exists, "
-                                  "destroy and clean make? (y/n)"))
+                print(colored.red("[!] A package by that name already exists, "
+                                  "destroy and clean make? (y/n) : "), end="")
                 choice = input()
-
+                
                 if choice == 'y':
                     lib.remove_package(package_name)
                 elif choice == 'n':
-                    print(colored.red("Please pick a different package name, "
+                    print(colored.red("[!] Please pick a different package name, "
                                       "aborting."))
                     sys.exit()
                 else:
-                    logging.error(" Invalid choice")
+                    logging.error(colored.red(" Invalid choice"))
+                    print(colored.red("[!] Invalid choice, aborting"))
                     sys.exit()
 
             # Create the initial structure
@@ -90,14 +101,15 @@ def main():
 
             lib.report_status(status)
 
-            print(colored.yellow("Package {} was created "
+            print(colored.green("[|]"))
+            print(colored.green("[*] Package {} was created "
                                  "successfully.".format(package_name)))
         except EOFError:
             # Catch error thrown by clint.main
-            print(colored.yellow("Ctrl+C : Aborting package creation."))
+            print(colored.yellow("\n[!] Ctrl+C : Aborting package creation."))
             sys.exit()
     except KeyboardInterrupt:
-        print(colored.yellow("Ctrl+C : Aborting package creation."))
+        print(colored.yellow("\n[!] Ctrl+C : Aborting package creation."))
 
         # Rollback changes
         if os.path.isdir(args.package_name):
