@@ -4,7 +4,7 @@ import unittest
 import os
 import sys
 
-# sys.path.append('../alacrity')
+sys.path.append('../alacrity')
 from alacrity import lib
 
 
