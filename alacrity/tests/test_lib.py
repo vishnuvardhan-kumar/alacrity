@@ -30,7 +30,7 @@ class TestParser(unittest.TestCase):
         self.path = 'test_persist.ini'
 
         # Test default values
-        self.persist, test_attributes = lib.rebuild_persistence(self.path)
+        self.persist, test_attributes = lib.rebuild_persistence(self.path, silent=True)
         self.assertEqual(test_attributes['invert'], False)
         self.assertEqual(test_attributes['build'], False)
 

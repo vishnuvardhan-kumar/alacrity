@@ -26,7 +26,7 @@ def main():
                                                  "package from a terminal")
     parser.add_argument('--make', action='store_true', help="Rebuild "
                                                             "persistence")
-    parser.add_argument('--version', action="version", version=f'%(prog) {v}')
+    parser.add_argument('--version', action="version", version=v)
     parser.add_argument('package_name')
 
     args = parser.parse_args()

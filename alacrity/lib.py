@@ -1,6 +1,3 @@
-from __future__ import print_function
-from __future__ import division, absolute_import, unicode_literals
-
 import logging
 import os
 import shutil
@@ -15,7 +12,7 @@ dirpath = os.path.dirname(filepath)
 pythonpath = sys.executable
 
 
-def rebuild_persistence(name='persist.ini'):
+def rebuild_persistence(name='persist.ini', silent=False):
     """
     Rebuild the persistence of the alacrity subsystem configuration
     :param name: The name of the file storing persistence
@@ -51,7 +48,9 @@ def rebuild_persistence(name='persist.ini'):
 
             for option in options.keys():
                 file_object.write('{}={}\n'.format(option, options[option]))
-            print(colored.yellow("Persistence was rebuilt successfully."))
+            
+            if not silent:
+                print(colored.yellow("Persistence was rebuilt successfully."))
 
     except IOError:
         logging.error("The persist.ini file could not be created.")
