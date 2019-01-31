@@ -5,7 +5,7 @@ with open("README.md", "r") as file_obj:
 
 setuptools.setup(
     name="alacrity",
-    version="1.2.0",
+    version="1.3.0",
     author="Vishnuvardhan Kumar",
     author_email="vishnukumar1997@gmail.com",
     description="Quickstart your Python development with CLI package "
@@ -21,7 +21,9 @@ setuptools.setup(
       },
     include_package_data=True,
     classifiers=(
-        "Programming Language :: Python :: 3.4+",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),

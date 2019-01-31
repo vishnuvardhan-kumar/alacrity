@@ -16,6 +16,7 @@ def rebuild_persistence(name='persist.ini', silent=False):
     """
     Rebuild the persistence of the alacrity subsystem configuration
     :param name: The name of the file storing persistence
+    :param silent: Whether to spew information on stdout
     :return: persist_path, options from the configuration
     """
 
@@ -50,10 +51,12 @@ def rebuild_persistence(name='persist.ini', silent=False):
                 file_object.write('{}={}\n'.format(option, options[option]))
             
             if not silent:
-                print(colored.yellow("[*] Persistence was rebuilt successfully."))
+                print(colored.yellow("[*] Persistence was rebuilt "
+                                     "successfully."))
 
     except IOError:
-        logging.error(colored.red("[!] The persist.ini file could not be created."))
+        logging.error(colored.red("[!] The persist.ini file could "
+                                  "not be created."))
 
     return persist_path, options
 
@@ -119,7 +122,8 @@ def create_package_structure(package_name, status):
 
     except OSError:
         logging.error(colored.red("package directory already exists"))
-        logging.error(colored.red("Enable clean_make for complete reconstruction"))
+        logging.error(colored.red("Enable clean_make for complete "
+                                  "reconstruction"))
         logging.error(colored.red(".py file creation failed at subdirectory."))
 
 
@@ -146,7 +150,8 @@ def create_docs_directory(path, status):
 
     except OSError:
         logging.error(colored.red("%s/docs directory already exists", path))
-        logging.error(colored.red("Enable clean_make for complete reconstruction"))
+        logging.error(colored.red("Enable clean_make for complete "
+                                  "reconstruction"))
 
 
 def create_tests_package(path, status):
@@ -169,8 +174,10 @@ def create_tests_package(path, status):
         status['tests_created'] = True
 
     except IOError:
-        logging.error(colored.red("py file creation failed at tests directory"))
-        logging.error(colored.red("Enable clean_make for complete reconstruction"))
+        logging.error(colored.red("py file creation failed at "
+                                  "tests directory"))
+        logging.error(colored.red("Enable clean_make for complete "
+                                  "reconstruction"))
 
 
 def create_git_ignore(path, status):
@@ -347,7 +354,7 @@ def create_setup(path, status, test=False):
     except IOError:
         logging.error(colored.red(" setup.py creation failed."))
 
-    return author
+    return author, version 
 
 
 def mit_lic(path, name, year, status):
@@ -461,23 +468,23 @@ def create_starter_files(path, status):
     Create and place various starter files in the structure
     :param path: The path to create the starter files at
     :param status: Dictionary containing the workflow status
-    :return: None
+    :return: author_name, version
     """
 
     # Create standard Python .gitignore
     create_git_ignore(path, status)
     # setup.py
-    full_name = create_setup(path, status, test=False)
+    full_name, version = create_setup(path, status, test=False)
     # LICENSE
     create_license(path, full_name, status)
     # MANIFEST.in
     create_manifest(path, status)
-    # Makefile
-    create_makefile(path, status)
     # README.rst
     create_readme(path, status)
     # requirements.txt
     create_requirements(path, status)
+
+    return full_name, version
 
 
 def report_status(status):
@@ -552,11 +559,13 @@ def git_init(path, status):
         if choice == 'y':
             command = [git_path, 'init', path]
             try:
-                value = subprocess.check_output(command).decode("utf-8")
+                subprocess.check_output(command).decode("utf-8")
             except subprocess.CalledProcessError:
-                print(colored.red("[!] git initialization subprocess failed, check permissions"))
+                print(colored.red("[!] git initialization subprocess failed, "
+                                  "check permissions"))
             else:
-                print(colored.green("[*] Initialized empty git repository in {}/.git".format(path)))
+                print(colored.green("[*] Initialized empty git repository "
+                                    "in {}/.git".format(path)))
         elif choice == 'n':
             print(colored.yellow('[>] Skipping git initialization'))
         else:
@@ -588,17 +597,19 @@ def venv_init(path, status):
     if is_python3_3:
         command = [pythonpath, '-m', 'venv']
     else:
-        logging.error(colored.red("[!] venv could not be detected or executed."))
+        logging.error(colored.red("[!] venv could not be detected or "
+                                  "executed."))
         print(colored.yellow('[>] Skipping venv initialization'))
 
     # Start process
     print(colored.green('[*] Do you want to initialize a virtual environment? '
-                        '(y/n): ' ), end="")
+                        '(y/n): '), end="")
     choice = input()
 
     if choice == 'y':
         try:
-            print(colored.green('[*] Enter a name for the virtual environment: '), end="")
+            print(colored.green('[*] Enter a name for the virtual '
+                                'environment: '), end="")
             venv_name = input()
             command.append("{}/{}".format(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
@@ -608,12 +619,67 @@ def venv_init(path, status):
             print(colored.green("[*] Virtual environment setup complete"))
             status['venv_created'] = True
     elif choice == 'n':
-        print(colored.yellow('[>] Skipping virtual environment initialization'))
+        print(colored.yellow('[>] Skipping virtual environment '
+                             'initialization'))
         status['venv_created'] = True
     else:
         logging.error(colored.red(" Invalid choice"))
         print(colored.red("[!] Invalid choice"))
         print(colored.yellow('[>] Skipping venv initialization'))
+
+
+def sphinx_init(path, author, version, status):
+    """
+    Initialize a Sphinx source dir at path (requires external package Sphinx)
+    :param path: The path in which the source dir will exist
+    :param author: The name of the author
+    :param version: The version of the package
+    :param status: Dictionary containing the workflow status
+    :return: None
+    """
+
+    is_sphinx = False
+
+    # Check if sphinx is available
+    try:
+        command = ['sphinx-quickstart', '--version']
+        out = subprocess.check_output(command).decode("utf-8")
+        if out.startswith('sphinx-quickstart'):
+            is_sphinx = True
+    except subprocess.CalledProcessError:
+        logging.error(colored.red("[!] Sphinx could not be detected "
+                                  "or executed."))
+        colored.red("[!] Sphinx could not be detected or executed.")
+        print(colored.yellow('[>] Skipping sphinx-docs initialization'))
+
+    if not is_sphinx:
+        return
+
+    # Start process
+    print(colored.green('[*] Do you want to initialize Sphinx documentation? '
+                        '(y/n): '), end="")
+    choice = input()
+
+    if choice == 'y':
+        try:
+            command = ['sphinx-quickstart', '-q', '-p', path, 
+                       '-a', author, '-v', version]
+            subprocess.check_output(command, cwd=path).decode("utf-8")
+        except subprocess.CalledProcessError as e:
+            logging.error(e)
+            print(colored.red("[!] Sphinx build failed : {}".format(e)))
+        else:
+            print(colored.green("[*] Sphinx documentation setup complete"))
+            status['sphinx_created'] = True
+    elif choice == 'n':
+        print(colored.yellow('[>] Skipping Sphinx documentation '
+                             'initialization'))
+        status['sphinx_created'] = True
+    else:
+        logging.error(colored.red(" Invalid choice"))
+        print(colored.red("[!] Invalid choice"))
+        print(colored.yellow('[>] Skipping Sphinx documentation '
+                             'initialization'))
 
 
 if __name__ == '__main__':

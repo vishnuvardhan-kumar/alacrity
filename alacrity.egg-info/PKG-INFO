@@ -17,9 +17,9 @@ Description: # alacrity
         
         `pip install alacrity`
         
-        To use alacrity, just type in a terminal:
+        To display all the options and the command syntax, use:
         
-        `alacrity`
+        `alacrity -h`
         
         Answer some questions interactively, and poof, your package structure is ready.
         
@@ -30,11 +30,12 @@ Description: # alacrity
          - Linux (anything except Android Terminal Emulators)
         
         A sample alacrity flow:
-        
-        ![Image](https://github.com/vishnuvardhan-kumar/alacrity/blob/master/alacrity/tests/scr.png?raw=true)
-        
+        ![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
+        ```
 Platform: UNKNOWN
-Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
