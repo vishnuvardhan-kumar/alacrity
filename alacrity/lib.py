@@ -541,15 +541,25 @@ def is_git_installed():
         return False
 
 
-def git_init(path, status):
+def git_init(path, status, silent=False):
     """
     Initialize a git repository at path (searches for git in system path)
+    :param silent: Whether to run silently with no prompts
     :param path: The path to create the git repo at
     :param status: Dictionary containing the workflow status
-    :return: None
+    :return: True or False only in silent mode
     """
 
     git_path = is_git_installed()
+
+    if silent:
+        command = [git_path, 'init', path]
+        try:
+            subprocess.check_output(command).decode('utf-8')
+        except subprocess.CalledProcessError:
+            return False
+        else:
+            return True
 
     if git_path:
         print(colored.green('[*] Do you want to initialize a Git repository? '
@@ -581,15 +591,14 @@ def git_init(path, status):
     status['git_initialized'] = True
 
 
-def venv_init(path, status):
+def venv_init(path, status, silent=False):
     """
     Initialize a virtual environment at path (defaults to venv in Python 3.3+)
     :param path: The path in which the virtualenv will exist
     :param status: Dictionary containing the workflow status
-    :return: None
+    :param silent: Whether to run the init without any prompts for input
+    :return: True or False only in silent mode
     """
-
-    command = ''
 
     # Check if venv is available
     is_python3_3 = sys.version_info.major == 3 and sys.version_info.minor >= 3
@@ -600,6 +609,16 @@ def venv_init(path, status):
         logging.error(colored.red("[!] venv could not be detected or "
                                   "executed."))
         print(colored.yellow('[>] Skipping venv initialization'))
+        return
+
+    if silent:
+        command = [pythonpath, '-m', 'venv', "{}/testenv".format(path)]
+        try:
+            subprocess.check_output(command).decode('utf-8')
+        except subprocess.CalledProcessError:
+            return False
+        else:
+            return True
 
     # Start process
     print(colored.green('[*] Do you want to initialize a virtual environment? '
@@ -628,14 +647,15 @@ def venv_init(path, status):
         print(colored.yellow('[>] Skipping venv initialization'))
 
 
-def sphinx_init(path, author, version, status):
+def sphinx_init(path, author, version, status, silent=False):
     """
     Initialize a Sphinx source dir at path (requires external package Sphinx)
     :param path: The path in which the source dir will exist
     :param author: The name of the author
     :param version: The version of the package
     :param status: Dictionary containing the workflow status
-    :return: None
+    :param silent: Whether to run without prompts or inputs
+    :return: True or False only in silent mode
     """
 
     is_sphinx = False
@@ -654,6 +674,16 @@ def sphinx_init(path, author, version, status):
 
     if not is_sphinx:
         return
+
+    if silent:
+        command = ['sphinx-quickstart', '-q', '-p', path, '-a', author, '-v',
+                   version]
+        try:
+            subprocess.check_output(command).decode('utf-8')
+        except subprocess.CalledProcessError:
+            return False
+        else:
+            return True
 
     # Start process
     print(colored.green('[*] Do you want to initialize Sphinx documentation? '

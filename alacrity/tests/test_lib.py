@@ -16,11 +16,12 @@ class TestParser(unittest.TestCase):
             'test_setup_created': False,
             'test_license_created': False,
             'test_manifest_created': False,
-            'test_makefile_created': False,
             'test_readme_created': False,
             'test_requirements_created': False,
             'test_tests_created': False,
-            'test_docs_created': False,
+            'test_git_initialized': False,
+            'test_venv_created': False,
+            'test_sphinx_created': False
         }
 
     def test_rebuild_persistence(self):
@@ -74,27 +75,6 @@ class TestParser(unittest.TestCase):
         self.assertTrue(os.path.isfile(self.libfile))
 
         # Clean-up the package created
-        lib.remove_package(self.test_name)
-
-    def test_create_docs_directory(self):
-        self.test_name = 'sample_directory'
-        self.sub_directory = '{0}/docs'.format(self.test_name)
-        self.conffile = '{}/conf.py'.format(self.sub_directory)
-        self.indexfile = '{}/index.rst'.format(self.sub_directory)
-        self.makefile = '{}/make.bat'.format(self.sub_directory)
-
-        os.mkdir(self.test_name)
-        lib.create_docs_directory(self.test_name, self.status)
-
-        # Verify creation of directories
-        self.assertTrue(os.path.isdir(self.test_name))
-        self.assertTrue(os.path.isdir(self.sub_directory))
-
-        # Verify creation of files
-        self.assertTrue(os.path.isfile(self.conffile))
-        self.assertTrue(os.path.isfile(self.indexfile))
-        self.assertTrue(os.path.isfile(self.makefile))
-
         lib.remove_package(self.test_name)
 
     def test_create_tests_package(self):
@@ -164,18 +144,6 @@ class TestParser(unittest.TestCase):
 
         lib.remove_package(self.path)
 
-    def test_create_makefile(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
-        self.makepath = '{}/Makefile'.format(self.path)
-
-        os.mkdir(self.path)
-        lib.create_makefile(self.path, self.status)
-
-        # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.makepath))
-
-        lib.remove_package(self.path)
-
     def test_create_setup(self):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
         self.setuppath = '{}/setup.py'.format(self.path)
@@ -221,6 +189,41 @@ class TestParser(unittest.TestCase):
 
         # Check if the file was created successfully
         self.assertTrue(os.path.isfile(self.licpath))
+
+        lib.remove_package(self.path)
+
+    def test_git_init(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        status = lib.git_init(self.path, self.status, silent=True)
+
+        # Check if the repository was created successfully
+        self.assertTrue(status)
+        self.assertTrue(os.path.isdir("{}/testpath/.git".format(self.path)))
+
+        lib.remove_package(self.path)
+
+    def test_venv_init(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        status = lib.venv_init(self.path, self.status, silent=True)
+
+        # Check if the virtualenv was created successfully
+        self.assertTrue(status)
+        self.assertTrue(os.path.isdir("{}/testpath/testenv").format(self.path))
+
+        lib.remove_package(self.path)
+
+    def sphinx_init(self):
+        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        status = lib.sphinx_init(self.path, "testauthor",
+                                 "1.0.0", self.status, silent=True)
+
+        # Check if the sphinx dir was created successfully
+        self.assertTrue(status)
+        self.assertTrue(os.path.isdir("{}/testpath/_build".format(self.path)))
+        self.assertTrue(os.path.isdir("{}/testpath/_static".format(self.path)))
+        self.assertTrue(
+            os.path.isdir("{}/testpath/_templates".format(self.path))
+        )
 
         lib.remove_package(self.path)
 
