@@ -501,7 +501,7 @@ def report_status(status):
 
 def is_git_installed():
     """
-    Check if git is installed and availabe in the system path
+    Check if git is installed and available in the system path
     :return: True if git is found else False
     """
 
