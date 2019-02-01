@@ -184,6 +184,7 @@ class TestParser(unittest.TestCase):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
         self.licpath = '{}/LICENSE'.format(self.path)
 
+        lib.remove_package(self.path)
         os.mkdir(self.path)
         lib.gpl_lic(self.path, self.status)
 
@@ -194,7 +195,10 @@ class TestParser(unittest.TestCase):
 
     def test_git_init(self):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
+
+        lib.remove_package(self.path)
         os.mkdir(self.path)
+
         status = lib.git_init(self.path, self.status, silent=True)
 
         # Check if the repository was created successfully
@@ -205,7 +209,10 @@ class TestParser(unittest.TestCase):
 
     def test_venv_init(self):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
+
+        lib.remove_package(self.path)
         os.mkdir(self.path)
+
         status = lib.venv_init(self.path, self.status, silent=True)
 
         # Check if the virtualenv was created successfully
