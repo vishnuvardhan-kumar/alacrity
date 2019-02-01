@@ -553,9 +553,9 @@ def git_init(path, status, silent=False):
     git_path = is_git_installed()
 
     if silent:
-        command = [git_path, 'init', path]
+        command = [git_path, 'init']
         try:
-            subprocess.check_output(command).decode('utf-8')
+            subprocess.check_output(command, cwd=path).decode('utf-8')
         except subprocess.CalledProcessError:
             return False
         else:

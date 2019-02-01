@@ -208,7 +208,7 @@ class TestParser(unittest.TestCase):
 
         # Check if the virtualenv was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/testpath/testenv").format(self.path))
+        self.assertTrue(os.path.isdir("{}/testpath/testenv".format(self.path)))
 
         lib.remove_package(self.path)
 
