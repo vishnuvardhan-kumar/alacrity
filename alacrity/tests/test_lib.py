@@ -2,6 +2,7 @@
 
 import unittest
 import os
+import logging
 
 from alacrity import lib
 
@@ -23,6 +24,7 @@ class TestParser(unittest.TestCase):
             'test_venv_created': False,
             'test_sphinx_created': False
         }
+        logging.basicConfig(level=logging.CRITICAL)
 
     def test_rebuild_persistence(self):
         # Initialise paths
@@ -203,7 +205,7 @@ class TestParser(unittest.TestCase):
 
         # Check if the repository was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/testpath/.git".format(self.path)))
+        self.assertTrue(os.path.isdir("{}/.git".format(self.path)))
 
         lib.remove_package(self.path)
 
@@ -217,7 +219,7 @@ class TestParser(unittest.TestCase):
 
         # Check if the virtualenv was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/testpath/testenv".format(self.path)))
+        self.assertTrue(os.path.isdir("{}/testenv".format(self.path)))
 
         lib.remove_package(self.path)
 

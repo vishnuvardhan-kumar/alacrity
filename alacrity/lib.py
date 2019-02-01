@@ -88,7 +88,8 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error(colored.red("The path %s could not be removed", path))
+        logging.error(colored.red(
+            "The path {} could not be removed".format(path)))
 
 
 def create_package_structure(package_name, status):
