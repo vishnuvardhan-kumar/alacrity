@@ -34,4 +34,8 @@ Tested to work on :
 
 A sample alacrity flow:
 ![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
-```
+
+
+Testing : 
+ - To run the built-in tests, run `tox` in the project root
+ - To add custom testing, edit `tox.ini` and `.travis.yml`
