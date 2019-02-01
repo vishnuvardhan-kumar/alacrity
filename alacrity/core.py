@@ -20,6 +20,7 @@ def main():
     :return: None
     """
 
+    # Start the process
     try:
         from alacrity import version
     except ImportError:
