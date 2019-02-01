@@ -612,9 +612,9 @@ def venv_init(path, status, silent=False):
         return
 
     if silent:
-        command = [pythonpath, '-m', 'venv', "{}/testenv".format(path)]
+        command = [pythonpath, '-m', 'venv', "testenv"]
         try:
-            subprocess.check_output(command).decode('utf-8')
+            subprocess.check_output(command, cwd=path).decode('utf-8')
         except subprocess.CalledProcessError:
             return False
         else:

@@ -194,6 +194,7 @@ class TestParser(unittest.TestCase):
 
     def test_git_init(self):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
+        os.mkdir(self.path)
         status = lib.git_init(self.path, self.status, silent=True)
 
         # Check if the repository was created successfully
@@ -204,6 +205,7 @@ class TestParser(unittest.TestCase):
 
     def test_venv_init(self):
         self.path = "{}/testpath".format(os.path.dirname(__file__))
+        os.mkdir(self.path)
         status = lib.venv_init(self.path, self.status, silent=True)
 
         # Check if the virtualenv was created successfully
