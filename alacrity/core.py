@@ -10,7 +10,7 @@ from clint.textui import colored
 
 try:
     from alacrity import lib
-except ImportError:    
+except ImportError:
     lib = importlib.import_module('lib', '../alacrity')
 
 

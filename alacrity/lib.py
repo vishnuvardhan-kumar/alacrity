@@ -49,7 +49,7 @@ def rebuild_persistence(name='persist.ini', silent=False):
 
             for option in options.keys():
                 file_object.write('{}={}\n'.format(option, options[option]))
-            
+
             if not silent:
                 print(colored.yellow("[*] Persistence was rebuilt "
                                      "successfully."))
@@ -200,7 +200,7 @@ def create_git_ignore(path, status):
 
     try:
         with open("{}/.gitignore".format(path), "w") as git:
-                git.write(git_ignore)
+            git.write(git_ignore)
         status['gitignore_created'] = True
 
     except IOError:
@@ -354,7 +354,7 @@ def create_setup(path, status, test=False):
     except IOError:
         logging.error(colored.red(" setup.py creation failed."))
 
-    return author, version 
+    return author, version
 
 
 def mit_lic(path, name, year, status):
@@ -662,7 +662,7 @@ def sphinx_init(path, author, version, status):
 
     if choice == 'y':
         try:
-            command = ['sphinx-quickstart', '-q', '-p', path, 
+            command = ['sphinx-quickstart', '-q', '-p', path,
                        '-a', author, '-v', version]
             subprocess.check_output(command, cwd=path).decode("utf-8")
         except subprocess.CalledProcessError as e:
