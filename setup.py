@@ -5,7 +5,7 @@ with open("README.md", "r") as file_obj:
 
 setuptools.setup(
     name="alacrity",
-    version="1.3.1",
+    version="1.3.2",
     author="Vishnuvardhan Kumar",
     author_email="vishnukumar1997@gmail.com",
     description="Quickstart your Python development with CLI package "
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=['clint', 'Sphinx'],
+    install_requires=['clint'],
     entry_points={
           'console_scripts': [
               'alacrity = alacrity.core:main'
