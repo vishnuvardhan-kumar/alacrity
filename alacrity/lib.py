@@ -522,7 +522,7 @@ def is_git_installed():
             if cmd_result.startswith('INFO'):
                 return False
             return cmd_result
-        except OSError:
+        except subprocess.CalledProcessError:
             return False
 
     elif sys.platform.startswith('linux'):
@@ -530,7 +530,7 @@ def is_git_installed():
         try:
             true_cmd_result = subprocess.check_output(['which', 'git'])
             cmd_result = true_cmd_result.decode("utf-8").rstrip()
-        except OSError:
+        except subprocess.CalledProcessError:
             cmd_result = ""
 
         if 'no git in' in cmd_result or not cmd_result:
