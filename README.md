@@ -4,8 +4,11 @@
 [![Build Status](https://travis-ci.org/vishnuvardhan-kumar/alacrity.svg?branch=master)](https://travis-ci.org/vishnuvardhan-kumar/alacrity)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-
 Quickstart your Python project with a single handy command.
+
+![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
+
+Install it by using:
 
 `pip install alacrity`
 
@@ -30,12 +33,8 @@ Features:
 Tested to work on :
  - Windows (and Cygwin)
  - Linux
- - macOS is not officially supported, but it should work with a few hacks
-
-A sample alacrity flow:
-![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
-
+ - Android (Termux)
 
 Testing : 
  - To run the built-in tests, run `tox` in the project root
- - To add custom testing, edit `tox.ini` and `.travis.yml`
+ - To add custom testing, edit `tox.ini`
