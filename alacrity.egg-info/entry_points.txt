@@ -1,3 +1,0 @@
-[console_scripts]
-alacrity = alacrity.core:main
-
