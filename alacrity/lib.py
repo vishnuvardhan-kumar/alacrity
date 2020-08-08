@@ -3,6 +3,7 @@ import os
 import shutil
 import sys
 import subprocess
+import datetime
 from clint.textui import colored
 
 is_64bits = sys.maxsize > 2**32
@@ -445,16 +446,13 @@ def create_license(path, full_name, status):
 
     print(colored.green("[*] Choose a license [mit/apache/gpl3]: "), end="")
     license_name = input()
-
     fullname = full_name
-
-    print(colored.green("[*] Enter year for license: "), end="")
-    year = input()
+    today = datetime.datetime.today()
 
     if license_name == 'mit':
-        mit_lic(path, fullname, year, status)
+        mit_lic(path, fullname, today.year, status)
     elif license_name == 'apache':
-        apa_lic(path, fullname, year, status)
+        apa_lic(path, fullname, today.year, status)
     elif license_name == 'gpl3':
         gpl_lic(path, status)
     else:

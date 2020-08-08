@@ -137,7 +137,7 @@ def main():
             logging.debug("[-] Rolling back committed changes, deleting files")
             shutil.rmtree(args.package_name)
 
-        logging.debug("[-] alacrity:ROOT :: quiting")
+        logging.debug("[-] Alacrity is exiting")
         sys.exit()
 
 
