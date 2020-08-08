@@ -450,9 +450,9 @@ def create_license(path, full_name, status):
     today = datetime.datetime.today()
 
     if license_name == 'mit':
-        mit_lic(path, fullname, today.year, status)
+        mit_lic(path, fullname, str(today.year), status)
     elif license_name == 'apache':
-        apa_lic(path, fullname, today.year, status)
+        apa_lic(path, fullname, str(today.year), status)
     elif license_name == 'gpl3':
         gpl_lic(path, status)
     else:
