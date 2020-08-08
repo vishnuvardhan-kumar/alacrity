@@ -8,9 +8,11 @@ Quickstart your Python project with a single handy command.
 
 ![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
 
-Install it by using:
+## Installation
 
 `pip install alacrity`
+
+## Running Alacrity
 
 To run alacrity, use:
 
@@ -23,18 +25,18 @@ To display all the options, use:
 Answer some questions interactively, and poof, your package structure is ready.
 Based on the [sample Python package](https://github.com/kennethreitz/samplemod) structure by Kenneth Reitz.
 
-Features:
+## Features
  - Customized setup.py file
  - Automatic git repository initialization
  - Automatic virtual environment setup
  - Automatic Sphinx docs initialization
  - Easily extensible workflow for custom install steps 
 
-Tested to work on :
+## Platforms
  - Windows (and Cygwin)
  - Linux
  - Android (Termux)
 
-Testing : 
+## Testing
  - To run the built-in tests, run `tox` in the project root
  - To add custom testing, edit `tox.ini`
