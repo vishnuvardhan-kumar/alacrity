@@ -1,10 +1,17 @@
-# alacrity
+# <div align="center">Alacrity</div>
 
-[![PyPI version](https://badge.fury.io/py/alacrity.svg)](https://badge.fury.io/py/alacrity)
+<div align="center">
+
+[![Release](https://img.shields.io/github/v/release/vishnuvardhan-kumar/alacrity.svg)](https://img.shields.io/github/v/release/vishnuvardhan-kumar/alacrity.svg)
 [![Build Status](https://travis-ci.org/vishnuvardhan-kumar/alacrity.svg?branch=master)](https://travis-ci.org/vishnuvardhan-kumar/alacrity)
+[![Issues](https://img.shields.io/github/issues/vishnuvardhan-kumar/alacrity.svg)](https://img.shields.io/github/issues/vishnuvardhan-kumar/alacrity.svg)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Stars](https://img.shields.io/github/stars/vishnuvardhan-kumar/alacrity.svg?style=social&label=Star)](https://img.shields.io/github/stars/vishnuvardhan-kumar/alacrity?style=social&label=Star)
+
 
 Quickstart your Python project with a single handy command.
+
+</div>
 
 ![Screenshot](https://raw.githubusercontent.com/vishnuvardhan-kumar/alacrity/master/alacrity/tests/scr.png)
 
