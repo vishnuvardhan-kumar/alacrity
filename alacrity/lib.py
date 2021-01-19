@@ -1,6 +1,7 @@
 import logging
 import os
-from os.path import join
+from os.path import join, isfile, expanduser
+from configparser import ConfigParser
 import shutil
 import sys
 import subprocess
@@ -323,11 +324,44 @@ def create_setup(path, status, test=False):
         print(colored.green("[*] Enter a brief description: "), end="")
         desc = input()
 
-        print(colored.green("[*] Enter author name: "), end="")
-        author = input()
+        # Attempt to get author and email from git config
+        default_author = ''
+        default_email = ''
 
-        print(colored.green("[*] Enter author email: "), end="")
-        author_email = input()
+        gitconfig_path = ''
+
+        # Find git config file
+        for i in ['~/.gitconfig', '~/.config/git/config']:
+            config_path = expanduser(i)
+            if isfile(config_path):
+                gitconfig_path = config_path
+                break
+
+        if gitconfig_path:
+            config = ConfigParser()
+            config.read(gitconfig_path)
+            if 'user' in config:
+                user_section = config['user']
+                if 'name' in user_section:
+                    default_author = user_section['name']
+                if 'email' in user_section:
+                    default_email = user_section['email']
+
+        print(
+            colored.green(
+                "[*] Enter author name [{}]: ".format(default_author)
+            ),
+            end=""
+        )
+        author = input() or default_author
+
+        print(
+            colored.green(
+                "[*] Enter author email [{}]: ".format(default_email)
+            ),
+            end=""
+        )
+        author_email = input() or default_email
 
     abs_path = join(dirpath, "starters/setup.py")
     rel_path = join(dirpath, "setup.py")
