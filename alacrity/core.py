@@ -27,7 +27,7 @@ def main():
         version = importlib.import_module('version', '../alacrity')
 
     # Get version information from version.py
-    v = version.version()
+    v = version.__version__
 
     parser = argparse.ArgumentParser(description="Alacrity : "
                                                  "Quickstart your Python "
