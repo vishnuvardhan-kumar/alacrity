@@ -56,8 +56,8 @@ def rebuild_persistence(name='persist.ini', silent=False):
                                      "successfully."))
 
     except IOError:
-        logging.error(colored.red("[!] The persist.ini file could "
-                                  "not be created."))
+        logging.exception(colored.red("[!] The persist.ini file could "
+                                      "not be created."))
 
     return persist_path, options
 
@@ -89,7 +89,7 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error(colored.red(
+        logging.exception(colored.red(
             "The path {} could not be removed".format(path)))
 
 
@@ -123,7 +123,7 @@ def create_package_structure(package_name, status):
         status['structure_created'] = True
 
     except OSError:
-        logging.error(colored.red("package directory already exists"))
+        logging.exception(colored.red("package directory already exists"))
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
         logging.error(colored.red(".py file creation failed at subdirectory."))
@@ -151,7 +151,9 @@ def create_docs_directory(path, status):
         status['docs_created'] = True
 
     except OSError:
-        logging.error(colored.red("%s/docs directory already exists", path))
+        logging.exception(
+            colored.red("%s/docs directory already exists", path)
+        )
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
 
@@ -176,8 +178,8 @@ def create_tests_package(path, status):
         status['tests_created'] = True
 
     except IOError:
-        logging.error(colored.red("py file creation failed at "
-                                  "tests directory"))
+        logging.exception(colored.red("py file creation failed at "
+                                      "tests directory"))
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
 
@@ -206,7 +208,7 @@ def create_git_ignore(path, status):
         status['gitignore_created'] = True
 
     except IOError:
-        logging.error(colored.red(" .gitignore creation failed"))
+        logging.exception(colored.red(" .gitignore creation failed"))
 
 
 def create_manifest(path, status):
@@ -233,7 +235,7 @@ def create_manifest(path, status):
         status['manifest_created'] = True
 
     except IOError:
-        logging.error(colored.red(" MANIFEST.in creation failed"))
+        logging.exception(colored.red(" MANIFEST.in creation failed"))
 
 
 def create_requirements(path, status):
@@ -260,7 +262,7 @@ def create_requirements(path, status):
         status['requirements_created'] = True
 
     except IOError:
-        logging.error(colored.red(" requirements.txt creation failed"))
+        logging.exception(colored.red(" requirements.txt creation failed"))
 
 
 def create_readme(path, status):
@@ -290,7 +292,7 @@ def create_readme(path, status):
         status['readme_created'] = True
 
     except IOError:
-        logging.error(colored.red(" README.rst creation failed."))
+        logging.exception(colored.red(" README.rst creation failed."))
 
 
 def create_makefile(path, status):
@@ -301,7 +303,7 @@ def create_makefile(path, status):
         status['makefile_created'] = True
 
     except IOError:
-        logging.error(colored.red(" Makefile creation failed."))
+        logging.exception(colored.red(" Makefile creation failed."))
 
 
 def create_setup(path, status, test=False):
@@ -387,7 +389,7 @@ def create_setup(path, status, test=False):
         status['setup_created'] = True
 
     except IOError:
-        logging.error(colored.red(" setup.py creation failed."))
+        logging.exception(colored.red(" setup.py creation failed."))
 
     return author, version
 
@@ -416,7 +418,7 @@ def mit_lic(path, name, year, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def apa_lic(path, name, year, status):
@@ -443,7 +445,7 @@ def apa_lic(path, name, year, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def gpl_lic(path, status):
@@ -465,7 +467,7 @@ def gpl_lic(path, status):
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def create_license(path, full_name, status):
@@ -626,7 +628,7 @@ def venv_init(path, status, silent=False):
             command.append(join(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logging.exception(e)
         else:
             print(colored.green("[*] Virtual environment setup complete"))
             status['venv_created'] = True
@@ -660,8 +662,8 @@ def sphinx_init(path, author, version, status, silent=False):
         if out.startswith('sphinx-quickstart'):
             is_sphinx = True
     except subprocess.CalledProcessError:
-        logging.error(colored.red("[!] Sphinx could not be detected "
-                                  "or executed."))
+        logging.exception(colored.red("[!] Sphinx could not be detected "
+                                      "or executed."))
         colored.red("[!] Sphinx could not be detected or executed.")
         print(colored.yellow('[>] Skipping sphinx-docs initialization'))
 
@@ -689,7 +691,7 @@ def sphinx_init(path, author, version, status, silent=False):
                        '-a', author, '-v', version]
             subprocess.check_output(command, cwd=path).decode("utf-8")
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logging.exception(e)
             print(colored.red("[!] Sphinx build failed : {}".format(e)))
         else:
             print(colored.green("[*] Sphinx documentation setup complete"))
