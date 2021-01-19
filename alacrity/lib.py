@@ -1,5 +1,6 @@
 import logging
 import os
+from os.path import join
 import shutil
 import sys
 import subprocess
@@ -24,7 +25,7 @@ def rebuild_persistence(name='persist.ini', silent=False):
                'build': False}
 
     # Congregated persistence path
-    persist_path = os.path.join(dirpath, name)
+    persist_path = join(dirpath, name)
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
@@ -107,15 +108,15 @@ def create_package_structure(package_name, status):
         os.mkdir(sub_directory)
 
         # Create __init__.py in subdirectory
-        with open('{}/__init__.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "__init__.py"), 'w') as fobj:
             fobj.close()
 
         # Create core.py in subdirectory
-        with open('{}/core.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "core.py"), 'w') as fobj:
             fobj.close()
 
         # Create lib.py in subdirectory
-        with open('{}/lib.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "lib.py"), 'w') as fobj:
             fobj.close()
 
         status['structure_created'] = True
@@ -137,15 +138,15 @@ def create_docs_directory(path, status):
 
     try:
         # Create docs directory
-        os.mkdir('{}/docs'.format(path))
+        os.mkdir(join(path, "docs"))
         # Create conf.py in docs directory
-        with open('{}/docs/conf.py'.format(path), 'w') as fobj:
+        with open(join(path, "docs/conf.py"), 'w') as fobj:
             fobj.close()
-        with open('{}/docs/index.rst'.format(path), 'w') as fobj:
+        with open(join(path, "docs/index.rst"), 'w') as fobj:
             fobj.close()
-        with open('{}/docs/make.bat'.format(path), 'w') as fobj:
+        with open(join(path, "docs/make.bat"), 'w') as fobj:
             fobj.close()
-        create_makefile('{}/docs'.format(path), status)
+        create_makefile(join(path, "docs"), status)
         status['docs_created'] = True
 
     except OSError:
@@ -164,12 +165,12 @@ def create_tests_package(path, status):
 
     try:
         # Create tests directory
-        os.mkdir('{}/tests'.format(path))
+        os.mkdir(join(path, "tests"))
         # Create __init__.py in tests directory
-        with open('{}/tests/__init__.py'.format(path), 'w') as fobj:
+        with open(join(path, "tests/__init__.py"), 'w') as fobj:
             fobj.close()
         # Create test_lib.py in tests directory
-        with open('{}/tests/test_lib.py'.format(path), 'w') as fobj:
+        with open(join(path, "tests/test_lib.py"), 'w') as fobj:
             fobj.write("# Place tests for the lib.py functions here. ")
         status['tests_created'] = True
 
@@ -188,8 +189,8 @@ def create_git_ignore(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/gitignore.txt")
-    rel_path = os.path.join(dirpath, "gitignore.txt")
+    abs_path = join(dirpath, "starters/gitignore.txt")
+    rel_path = join(dirpath, "gitignore.txt")
 
     try:
         with open(rel_path, "r") as git_read:
@@ -199,7 +200,7 @@ def create_git_ignore(path, status):
             git_ignore = git_read.read()
 
     try:
-        with open("{}/.gitignore".format(path), "w") as git:
+        with open(join(path, ".gitignore"), "w") as git:
             git.write(git_ignore)
         status['gitignore_created'] = True
 
@@ -215,8 +216,8 @@ def create_manifest(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/MANIFEST.in")
-    rel_path = os.path.join(dirpath, "MANIFEST.in")
+    abs_path = join(dirpath, "starters/MANIFEST.in")
+    rel_path = join(dirpath, "MANIFEST.in")
 
     try:
         with open(rel_path, "r") as man:
@@ -226,7 +227,7 @@ def create_manifest(path, status):
             data = man.read()
 
     try:
-        with open("{}/MANIFEST.in".format(path), "w") as git:
+        with open(join(path, "MANIFEST.in"), "w") as git:
             git.write(data)
         status['manifest_created'] = True
 
@@ -242,8 +243,8 @@ def create_requirements(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/requirements.txt")
-    rel_path = os.path.join(dirpath, "requirements.txt")
+    abs_path = join(dirpath, "starters/requirements.txt")
+    rel_path = join(dirpath, "requirements.txt")
 
     try:
         with open(rel_path, "r") as man:
@@ -253,7 +254,7 @@ def create_requirements(path, status):
             data = man.read()
 
     try:
-        with open("{}/requirements.txt".format(path), "w") as git:
+        with open(join(path, "requirements.txt"), "w") as git:
             git.write(data)
         status['requirements_created'] = True
 
@@ -269,8 +270,8 @@ def create_readme(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/README.rst")
-    rel_path = os.path.join(dirpath, "README.rst")
+    abs_path = join(dirpath, "starters/README.rst")
+    rel_path = join(dirpath, "README.rst")
 
     try:
         with open(rel_path, "r") as man:
@@ -283,7 +284,7 @@ def create_readme(path, status):
     data = data.replace("^$^", "="*len(path), 2)
 
     try:
-        with open("{}/README.rst".format(path), "w") as wr:
+        with open(join(path, "README.rst"), "w") as wr:
             wr.write(data)
         status['readme_created'] = True
 
@@ -294,7 +295,7 @@ def create_readme(path, status):
 def create_makefile(path, status):
     """" Creates a MAKEFILE in the path"""
     try:
-        with open('{}/Makefile'.format(path), 'w') as fobj:
+        with open(join(path, "Makefile"), 'w') as fobj:
             fobj.close()
         status['makefile_created'] = True
 
@@ -328,8 +329,8 @@ def create_setup(path, status, test=False):
         print(colored.green("[*] Enter author email: "), end="")
         author_email = input()
 
-    abs_path = os.path.join(dirpath, "starters/setup.py")
-    rel_path = os.path.join(dirpath, "setup.py")
+    abs_path = join(dirpath, "starters/setup.py")
+    rel_path = join(dirpath, "setup.py")
 
     try:
         with open(rel_path, "r") as man:
@@ -347,7 +348,7 @@ def create_setup(path, status, test=False):
         doc = doc.replace('[@author_email]', author_email)
 
     try:
-        with open("{}/setup.py".format(path), "w") as wr:
+        with open(join(path, "setup.py"), "w") as wr:
             wr.write(doc)
         status['setup_created'] = True
 
@@ -367,8 +368,8 @@ def mit_lic(path, name, year, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/MIT_LICENSE")
-    rel_path = os.path.join(dirpath, "MIT_LICENSE")
+    abs_path = join(dirpath, "starters/MIT_LICENSE")
+    rel_path = join(dirpath, "MIT_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -376,7 +377,7 @@ def mit_lic(path, name, year, status):
     data = data.replace('[@year]', year)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
@@ -394,8 +395,8 @@ def apa_lic(path, name, year, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/APACHE2_LICENSE")
-    rel_path = os.path.join(dirpath, "APACHE2_LICENSE")
+    abs_path = join(dirpath, "starters/APACHE2_LICENSE")
+    rel_path = join(dirpath, "APACHE2_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -403,7 +404,7 @@ def apa_lic(path, name, year, status):
     data = data.replace('[@year]', year)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
@@ -419,13 +420,13 @@ def gpl_lic(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/GPL_LICENSE")
-    rel_path = os.path.join(dirpath, "GPL_LICENSE")
+    abs_path = join(dirpath, "starters/GPL_LICENSE")
+    rel_path = join(dirpath, "GPL_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
@@ -588,7 +589,7 @@ def venv_init(path, status, silent=False):
             print(colored.green('[*] Enter a name for the virtual '
                                 'environment: '), end="")
             venv_name = input()
-            command.append("{}/{}".format(path, venv_name))
+            command.append(join(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
         except subprocess.CalledProcessError as e:
             logging.error(e)
