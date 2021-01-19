@@ -2,7 +2,7 @@
 
 import unittest
 import os
-from os.path import join
+from os.path import join, isdir, isfile
 import logging
 
 from alacrity import lib
@@ -38,7 +38,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(test_attributes['build'], False)
 
         # Test creation of file
-        self.assertTrue(os.path.isfile(self.persist))
+        self.assertTrue(isfile(self.persist))
         os.remove(self.persist)
 
     def test_read_from_paths(self):
@@ -57,7 +57,7 @@ class TestParser(unittest.TestCase):
         os.mkdir(self.test_path)
         lib.remove_package(self.test_path)
 
-        self.assertFalse(os.path.isdir(self.test_path))
+        self.assertFalse(isdir(self.test_path))
 
     def test_create_package_structure(self):
         self.test_name = 'sample_package'
@@ -69,13 +69,13 @@ class TestParser(unittest.TestCase):
         lib.create_package_structure(self.test_name, self.status)
 
         # Verify creation of directories
-        self.assertTrue(os.path.isdir(self.test_name))
-        self.assertTrue(os.path.isdir(self.sub_directory))
+        self.assertTrue(isdir(self.test_name))
+        self.assertTrue(isdir(self.sub_directory))
 
         # Verify creation of files
-        self.assertTrue(os.path.isfile(self.initfile))
-        self.assertTrue(os.path.isfile(self.corefile))
-        self.assertTrue(os.path.isfile(self.libfile))
+        self.assertTrue(isfile(self.initfile))
+        self.assertTrue(isfile(self.corefile))
+        self.assertTrue(isfile(self.libfile))
 
         # Clean-up the package created
         lib.remove_package(self.test_name)
@@ -90,12 +90,12 @@ class TestParser(unittest.TestCase):
         lib.create_tests_package(self.test_name, self.status)
 
         # Verify creation of directories
-        self.assertTrue(os.path.isdir(self.test_name))
-        self.assertTrue(os.path.isdir(self.sub_directory))
+        self.assertTrue(isdir(self.test_name))
+        self.assertTrue(isdir(self.sub_directory))
 
         # Verify creation of files
-        self.assertTrue(os.path.isfile(self.initfile))
-        self.assertTrue(os.path.isfile(self.testlibfile))
+        self.assertTrue(isfile(self.initfile))
+        self.assertTrue(isfile(self.testlibfile))
 
         lib.remove_package(self.test_name)
 
@@ -107,7 +107,7 @@ class TestParser(unittest.TestCase):
         lib.create_git_ignore(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.gitpath))
+        self.assertTrue(isfile(self.gitpath))
 
         lib.remove_package(self.path)
 
@@ -119,7 +119,7 @@ class TestParser(unittest.TestCase):
         lib.create_manifest(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.manpath))
+        self.assertTrue(isfile(self.manpath))
 
         lib.remove_package(self.path)
 
@@ -131,7 +131,7 @@ class TestParser(unittest.TestCase):
         lib.create_requirements(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.reqpath))
+        self.assertTrue(isfile(self.reqpath))
 
         lib.remove_package(self.path)
 
@@ -143,7 +143,7 @@ class TestParser(unittest.TestCase):
         lib.create_readme(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.readpath))
+        self.assertTrue(isfile(self.readpath))
 
         lib.remove_package(self.path)
 
@@ -155,7 +155,7 @@ class TestParser(unittest.TestCase):
         lib.create_setup(self.path, self.status, test=True)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.setuppath))
+        self.assertTrue(isfile(self.setuppath))
 
         lib.remove_package(self.path)
 
@@ -167,7 +167,7 @@ class TestParser(unittest.TestCase):
         lib.mit_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
@@ -179,7 +179,7 @@ class TestParser(unittest.TestCase):
         lib.apa_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
@@ -192,7 +192,7 @@ class TestParser(unittest.TestCase):
         lib.gpl_lic(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
@@ -206,7 +206,7 @@ class TestParser(unittest.TestCase):
 
         # Check if the repository was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir(join(self.path)), ".git")
+        self.assertTrue(isdir(join(self.path, ".git")))
 
         lib.remove_package(self.path)
 
@@ -220,7 +220,7 @@ class TestParser(unittest.TestCase):
 
         # Check if the virtualenv was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir(join(self.path)), "testenv")
+        self.assertTrue(isdir(join(self.path, "testenv")))
 
         lib.remove_package(self.path)
 
@@ -231,10 +231,10 @@ class TestParser(unittest.TestCase):
 
         # Check if the sphinx dir was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir(join(self.path)), "testpath/_build")
-        self.assertTrue(os.path.isdir(join(self.path)), "testpath/_static")
+        self.assertTrue(isdir(join(self.path, "testpath/_build")))
+        self.assertTrue(isdir(join(self.path, "testpath/_static")))
         self.assertTrue(
-            os.path.isdir(join(self.path), "testpath/_templates")
+            isdir(join(self.path, "testpath/_templates"))
         )
 
         lib.remove_package(self.path)
