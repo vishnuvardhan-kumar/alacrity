@@ -6,8 +6,6 @@ import subprocess
 import datetime
 from clint.textui import colored
 
-is_64bits = sys.maxsize > 2**32
-
 filepath = os.path.abspath(__file__)
 dirpath = os.path.dirname(filepath)
 pythonpath = sys.executable
@@ -498,48 +496,6 @@ def report_status(status):
             print(colored.red("[!] WARN : Task {} failed".format(task)))
 
 
-def is_git_installed():
-    """
-    Check if git is installed and available in the system path
-    :return: True if git is found else False
-    """
-
-    current_dir = os.getcwd()
-
-    if sys.platform.startswith('win'):
-        # Windows specific code
-        if is_64bits:
-            windows_dir = os.path.join(os.environ['WINDIR'], 'SysWOW64')
-        else:
-            windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
-
-        try:
-            full_cmd = '{}\\where.exe git'.format(windows_dir)
-            cmd_result = subprocess.check_output(
-                full_cmd, cwd=current_dir).strip().decode("utf-8")
-            if cmd_result.startswith('INFO'):
-                return False
-            return cmd_result
-        except subprocess.CalledProcessError:
-            return False
-
-    elif sys.platform.startswith('linux'):
-        # Linux specific code
-        try:
-            true_cmd_result = subprocess.check_output(['which', 'git'])
-            cmd_result = true_cmd_result.decode("utf-8").rstrip()
-        except subprocess.CalledProcessError:
-            cmd_result = ""
-
-        if 'no git in' in cmd_result or not cmd_result:
-            return False
-
-        return cmd_result
-
-    else:
-        return False
-
-
 def git_init(path, status, silent=False):
     """
     Initialize a git repository at path (searches for git in system path)
@@ -549,16 +505,19 @@ def git_init(path, status, silent=False):
     :return: True or False only in silent mode
     """
 
-    git_path = is_git_installed()
+    git_path = shutil.which('git')
 
     if silent:
-        command = [git_path, 'init']
-        try:
-            subprocess.check_output(command, cwd=path).decode('utf-8')
-        except subprocess.CalledProcessError:
-            return False
+        if git_path is not None:
+            command = [git_path, 'init']
+            try:
+                subprocess.check_output(command, cwd=path).decode('utf-8')
+            except subprocess.CalledProcessError:
+                return False
+            else:
+                return True
         else:
-            return True
+            return False
 
     if git_path:
         print(colored.green('[*] Do you want to initialize a Git repository? '
