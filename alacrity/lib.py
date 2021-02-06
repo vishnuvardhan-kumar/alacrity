@@ -661,10 +661,10 @@ def sphinx_init(path, author, version, status, silent=False):
         out = subprocess.check_output(command).decode("utf-8")
         if out.startswith('sphinx-quickstart'):
             is_sphinx = True
-    except subprocess.CalledProcessError:
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
         logging.exception(colored.red("[!] Sphinx could not be detected "
                                       "or executed."))
-        colored.red("[!] Sphinx could not be detected or executed.")
+        print(colored.red("[!] Sphinx could not be detected or executed."))
         print(colored.yellow('[>] Skipping sphinx-docs initialization'))
 
     if not is_sphinx:
