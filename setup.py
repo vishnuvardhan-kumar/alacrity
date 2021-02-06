@@ -1,3 +1,4 @@
+from alacrity.version import __version__
 import setuptools
 
 with open("README.md", "r") as file_obj:
@@ -5,7 +6,7 @@ with open("README.md", "r") as file_obj:
 
 setuptools.setup(
     name="alacrity",
-    version="1.3.5",
+    version=__version__,
     author="Vishnuvardhan Kumar",
     author_email="vishnukumar1997@gmail.com",
     description="Quickstart your Python development with CLI package "

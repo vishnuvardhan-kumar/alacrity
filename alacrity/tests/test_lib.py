@@ -2,6 +2,7 @@
 
 import unittest
 import os
+from os.path import join, isdir, isfile
 import logging
 
 from alacrity import lib
@@ -37,7 +38,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(test_attributes['build'], False)
 
         # Test creation of file
-        self.assertTrue(os.path.isfile(self.persist))
+        self.assertTrue(isfile(self.persist))
         os.remove(self.persist)
 
     def test_read_from_paths(self):
@@ -56,25 +57,25 @@ class TestParser(unittest.TestCase):
         os.mkdir(self.test_path)
         lib.remove_package(self.test_path)
 
-        self.assertFalse(os.path.isdir(self.test_path))
+        self.assertFalse(isdir(self.test_path))
 
     def test_create_package_structure(self):
         self.test_name = 'sample_package'
         self.sub_directory = '{0}/{0}'.format(self.test_name)
-        self.initfile = '{}/__init__.py'.format(self.sub_directory)
-        self.corefile = '{}/core.py'.format(self.sub_directory)
-        self.libfile = '{}/lib.py'.format(self.sub_directory)
+        self.initfile = join(self.sub_directory, "__init__.py")
+        self.corefile = join(self.sub_directory, "core.py")
+        self.libfile = join(self.sub_directory, "lib.py")
 
         lib.create_package_structure(self.test_name, self.status)
 
         # Verify creation of directories
-        self.assertTrue(os.path.isdir(self.test_name))
-        self.assertTrue(os.path.isdir(self.sub_directory))
+        self.assertTrue(isdir(self.test_name))
+        self.assertTrue(isdir(self.sub_directory))
 
         # Verify creation of files
-        self.assertTrue(os.path.isfile(self.initfile))
-        self.assertTrue(os.path.isfile(self.corefile))
-        self.assertTrue(os.path.isfile(self.libfile))
+        self.assertTrue(isfile(self.initfile))
+        self.assertTrue(isfile(self.corefile))
+        self.assertTrue(isfile(self.libfile))
 
         # Clean-up the package created
         lib.remove_package(self.test_name)
@@ -82,121 +83,121 @@ class TestParser(unittest.TestCase):
     def test_create_tests_package(self):
         self.test_name = 'sample_tests_pack'
         self.sub_directory = '{0}/tests'.format(self.test_name)
-        self.initfile = '{}/__init__.py'.format(self.sub_directory)
-        self.testlibfile = '{}/test_lib.py'.format(self.sub_directory)
+        self.initfile = join(self.sub_directory, "__init__.py")
+        self.testlibfile = join(self.sub_directory, "test_lib.py")
 
         os.mkdir(self.test_name)
         lib.create_tests_package(self.test_name, self.status)
 
         # Verify creation of directories
-        self.assertTrue(os.path.isdir(self.test_name))
-        self.assertTrue(os.path.isdir(self.sub_directory))
+        self.assertTrue(isdir(self.test_name))
+        self.assertTrue(isdir(self.sub_directory))
 
         # Verify creation of files
-        self.assertTrue(os.path.isfile(self.initfile))
-        self.assertTrue(os.path.isfile(self.testlibfile))
+        self.assertTrue(isfile(self.initfile))
+        self.assertTrue(isfile(self.testlibfile))
 
         lib.remove_package(self.test_name)
 
     def test_create_gitignore(self):
         self.path = 'test_path'
-        self.gitpath = '{}/.gitignore'.format(self.path)
+        self.gitpath = join(self.path, ".gitignore")
 
         os.mkdir(self.path)
         lib.create_git_ignore(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.gitpath))
+        self.assertTrue(isfile(self.gitpath))
 
         lib.remove_package(self.path)
 
     def test_create_manifest(self):
         self.path = 'test_path'
-        self.manpath = '{}/MANIFEST.in'.format(self.path)
+        self.manpath = join(self.path, "MANIFEST.in")
 
         os.mkdir(self.path)
         lib.create_manifest(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.manpath))
+        self.assertTrue(isfile(self.manpath))
 
         lib.remove_package(self.path)
 
     def test_create_requirements(self):
         self.path = 'test_path'
-        self.reqpath = '{}/requirements.txt'.format(self.path)
+        self.reqpath = join(self.path, "requirements.txt")
 
         os.mkdir(self.path)
         lib.create_requirements(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.reqpath))
+        self.assertTrue(isfile(self.reqpath))
 
         lib.remove_package(self.path)
 
     def test_create_readme(self):
         self.path = 'test_path'
-        self.readpath = '{}/README.rst'.format(self.path)
+        self.readpath = join(self.path, "README.rst")
 
         os.mkdir(self.path)
         lib.create_readme(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.readpath))
+        self.assertTrue(isfile(self.readpath))
 
         lib.remove_package(self.path)
 
     def test_create_setup(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
-        self.setuppath = '{}/setup.py'.format(self.path)
+        self.path = join(os.path.dirname(__file__), "testpath")
+        self.setuppath = join(self.path, "setup.py")
 
         os.mkdir(self.path)
         lib.create_setup(self.path, self.status, test=True)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.setuppath))
+        self.assertTrue(isfile(self.setuppath))
 
         lib.remove_package(self.path)
 
     def test_mit(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
-        self.licpath = '{}/LICENSE'.format(self.path)
+        self.path = join(os.path.dirname(__file__), "testpath")
+        self.licpath = join(self.path, "LICENSE")
 
         os.mkdir(self.path)
         lib.mit_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
     def test_apa(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
-        self.licpath = '{}/LICENSE'.format(self.path)
+        self.path = join(os.path.dirname(__file__), "testpath")
+        self.licpath = join(self.path, "LICENSE")
 
         os.mkdir(self.path)
         lib.apa_lic(self.path, 'testname', 'year', self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
     def test_gpl(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
-        self.licpath = '{}/LICENSE'.format(self.path)
+        self.path = join(os.path.dirname(__file__), "testpath")
+        self.licpath = join(self.path, "LICENSE")
 
         lib.remove_package(self.path)
         os.mkdir(self.path)
         lib.gpl_lic(self.path, self.status)
 
         # Check if the file was created successfully
-        self.assertTrue(os.path.isfile(self.licpath))
+        self.assertTrue(isfile(self.licpath))
 
         lib.remove_package(self.path)
 
     def test_git_init(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.path = join(os.path.dirname(__file__), "testpath")
 
         lib.remove_package(self.path)
         os.mkdir(self.path)
@@ -205,12 +206,12 @@ class TestParser(unittest.TestCase):
 
         # Check if the repository was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/.git".format(self.path)))
+        self.assertTrue(isdir(join(self.path, ".git")))
 
         lib.remove_package(self.path)
 
     def test_venv_init(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.path = join(os.path.dirname(__file__), "testpath")
 
         lib.remove_package(self.path)
         os.mkdir(self.path)
@@ -219,21 +220,21 @@ class TestParser(unittest.TestCase):
 
         # Check if the virtualenv was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/testenv".format(self.path)))
+        self.assertTrue(isdir(join(self.path, "testenv")))
 
         lib.remove_package(self.path)
 
     def sphinx_init(self):
-        self.path = "{}/testpath".format(os.path.dirname(__file__))
+        self.path = join(os.path.dirname(__file__), "testpath")
         status = lib.sphinx_init(self.path, "testauthor",
                                  "1.0.0", self.status, silent=True)
 
         # Check if the sphinx dir was created successfully
         self.assertTrue(status)
-        self.assertTrue(os.path.isdir("{}/testpath/_build".format(self.path)))
-        self.assertTrue(os.path.isdir("{}/testpath/_static".format(self.path)))
+        self.assertTrue(isdir(join(self.path, "testpath/_build")))
+        self.assertTrue(isdir(join(self.path, "testpath/_static")))
         self.assertTrue(
-            os.path.isdir("{}/testpath/_templates".format(self.path))
+            isdir(join(self.path, "testpath/_templates"))
         )
 
         lib.remove_package(self.path)

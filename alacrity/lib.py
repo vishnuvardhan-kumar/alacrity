@@ -1,12 +1,12 @@
 import logging
 import os
+from os.path import join, isfile, expanduser
+from configparser import ConfigParser
 import shutil
 import sys
 import subprocess
 import datetime
 from clint.textui import colored
-
-is_64bits = sys.maxsize > 2**32
 
 filepath = os.path.abspath(__file__)
 dirpath = os.path.dirname(filepath)
@@ -26,7 +26,7 @@ def rebuild_persistence(name='persist.ini', silent=False):
                'build': False}
 
     # Congregated persistence path
-    persist_path = os.path.join(dirpath, name)
+    persist_path = join(dirpath, name)
 
     # Ensure that persist.ini does not exist
     if os.path.isfile(persist_path):
@@ -56,8 +56,8 @@ def rebuild_persistence(name='persist.ini', silent=False):
                                      "successfully."))
 
     except IOError:
-        logging.error(colored.red("[!] The persist.ini file could "
-                                  "not be created."))
+        logging.exception(colored.red("[!] The persist.ini file could "
+                                      "not be created."))
 
     return persist_path, options
 
@@ -89,7 +89,7 @@ def remove_package(path):
     try:
         shutil.rmtree(path)
     except OSError:
-        logging.error(colored.red(
+        logging.exception(colored.red(
             "The path {} could not be removed".format(path)))
 
 
@@ -109,21 +109,21 @@ def create_package_structure(package_name, status):
         os.mkdir(sub_directory)
 
         # Create __init__.py in subdirectory
-        with open('{}/__init__.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "__init__.py"), 'w') as fobj:
             fobj.close()
 
         # Create core.py in subdirectory
-        with open('{}/core.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "core.py"), 'w') as fobj:
             fobj.close()
 
         # Create lib.py in subdirectory
-        with open('{}/lib.py'.format(sub_directory), 'w') as fobj:
+        with open(join(sub_directory, "lib.py"), 'w') as fobj:
             fobj.close()
 
         status['structure_created'] = True
 
     except OSError:
-        logging.error(colored.red("package directory already exists"))
+        logging.exception(colored.red("package directory already exists"))
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
         logging.error(colored.red(".py file creation failed at subdirectory."))
@@ -139,19 +139,21 @@ def create_docs_directory(path, status):
 
     try:
         # Create docs directory
-        os.mkdir('{}/docs'.format(path))
+        os.mkdir(join(path, "docs"))
         # Create conf.py in docs directory
-        with open('{}/docs/conf.py'.format(path), 'w') as fobj:
+        with open(join(path, "docs/conf.py"), 'w') as fobj:
             fobj.close()
-        with open('{}/docs/index.rst'.format(path), 'w') as fobj:
+        with open(join(path, "docs/index.rst"), 'w') as fobj:
             fobj.close()
-        with open('{}/docs/make.bat'.format(path), 'w') as fobj:
+        with open(join(path, "docs/make.bat"), 'w') as fobj:
             fobj.close()
-        create_makefile('{}/docs'.format(path), status)
+        create_makefile(join(path, "docs"), status)
         status['docs_created'] = True
 
     except OSError:
-        logging.error(colored.red("%s/docs directory already exists", path))
+        logging.exception(
+            colored.red("%s/docs directory already exists", path)
+        )
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
 
@@ -166,18 +168,18 @@ def create_tests_package(path, status):
 
     try:
         # Create tests directory
-        os.mkdir('{}/tests'.format(path))
+        os.mkdir(join(path, "tests"))
         # Create __init__.py in tests directory
-        with open('{}/tests/__init__.py'.format(path), 'w') as fobj:
+        with open(join(path, "tests/__init__.py"), 'w') as fobj:
             fobj.close()
         # Create test_lib.py in tests directory
-        with open('{}/tests/test_lib.py'.format(path), 'w') as fobj:
+        with open(join(path, "tests/test_lib.py"), 'w') as fobj:
             fobj.write("# Place tests for the lib.py functions here. ")
         status['tests_created'] = True
 
     except IOError:
-        logging.error(colored.red("py file creation failed at "
-                                  "tests directory"))
+        logging.exception(colored.red("py file creation failed at "
+                                      "tests directory"))
         logging.error(colored.red("Enable clean_make for complete "
                                   "reconstruction"))
 
@@ -190,8 +192,8 @@ def create_git_ignore(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/gitignore.txt")
-    rel_path = os.path.join(dirpath, "gitignore.txt")
+    abs_path = join(dirpath, "starters/gitignore.txt")
+    rel_path = join(dirpath, "gitignore.txt")
 
     try:
         with open(rel_path, "r") as git_read:
@@ -201,12 +203,12 @@ def create_git_ignore(path, status):
             git_ignore = git_read.read()
 
     try:
-        with open("{}/.gitignore".format(path), "w") as git:
+        with open(join(path, ".gitignore"), "w") as git:
             git.write(git_ignore)
         status['gitignore_created'] = True
 
     except IOError:
-        logging.error(colored.red(" .gitignore creation failed"))
+        logging.exception(colored.red(" .gitignore creation failed"))
 
 
 def create_manifest(path, status):
@@ -217,8 +219,8 @@ def create_manifest(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/MANIFEST.in")
-    rel_path = os.path.join(dirpath, "MANIFEST.in")
+    abs_path = join(dirpath, "starters/MANIFEST.in")
+    rel_path = join(dirpath, "MANIFEST.in")
 
     try:
         with open(rel_path, "r") as man:
@@ -228,12 +230,12 @@ def create_manifest(path, status):
             data = man.read()
 
     try:
-        with open("{}/MANIFEST.in".format(path), "w") as git:
+        with open(join(path, "MANIFEST.in"), "w") as git:
             git.write(data)
         status['manifest_created'] = True
 
     except IOError:
-        logging.error(colored.red(" MANIFEST.in creation failed"))
+        logging.exception(colored.red(" MANIFEST.in creation failed"))
 
 
 def create_requirements(path, status):
@@ -244,8 +246,8 @@ def create_requirements(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/requirements.txt")
-    rel_path = os.path.join(dirpath, "requirements.txt")
+    abs_path = join(dirpath, "starters/requirements.txt")
+    rel_path = join(dirpath, "requirements.txt")
 
     try:
         with open(rel_path, "r") as man:
@@ -255,12 +257,12 @@ def create_requirements(path, status):
             data = man.read()
 
     try:
-        with open("{}/requirements.txt".format(path), "w") as git:
+        with open(join(path, "requirements.txt"), "w") as git:
             git.write(data)
         status['requirements_created'] = True
 
     except IOError:
-        logging.error(colored.red(" requirements.txt creation failed"))
+        logging.exception(colored.red(" requirements.txt creation failed"))
 
 
 def create_readme(path, status):
@@ -271,8 +273,8 @@ def create_readme(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/README.rst")
-    rel_path = os.path.join(dirpath, "README.rst")
+    abs_path = join(dirpath, "starters/README.rst")
+    rel_path = join(dirpath, "README.rst")
 
     try:
         with open(rel_path, "r") as man:
@@ -285,23 +287,23 @@ def create_readme(path, status):
     data = data.replace("^$^", "="*len(path), 2)
 
     try:
-        with open("{}/README.rst".format(path), "w") as wr:
+        with open(join(path, "README.rst"), "w") as wr:
             wr.write(data)
         status['readme_created'] = True
 
     except IOError:
-        logging.error(colored.red(" README.rst creation failed."))
+        logging.exception(colored.red(" README.rst creation failed."))
 
 
 def create_makefile(path, status):
     """" Creates a MAKEFILE in the path"""
     try:
-        with open('{}/Makefile'.format(path), 'w') as fobj:
+        with open(join(path, "Makefile"), 'w') as fobj:
             fobj.close()
         status['makefile_created'] = True
 
     except IOError:
-        logging.error(colored.red(" Makefile creation failed."))
+        logging.exception(colored.red(" Makefile creation failed."))
 
 
 def create_setup(path, status, test=False):
@@ -324,14 +326,47 @@ def create_setup(path, status, test=False):
         print(colored.green("[*] Enter a brief description: "), end="")
         desc = input()
 
-        print(colored.green("[*] Enter author name: "), end="")
-        author = input()
+        # Attempt to get author and email from git config
+        default_author = ''
+        default_email = ''
 
-        print(colored.green("[*] Enter author email: "), end="")
-        author_email = input()
+        gitconfig_path = ''
 
-    abs_path = os.path.join(dirpath, "starters/setup.py")
-    rel_path = os.path.join(dirpath, "setup.py")
+        # Find git config file
+        for i in ['~/.gitconfig', '~/.config/git/config']:
+            config_path = expanduser(i)
+            if isfile(config_path):
+                gitconfig_path = config_path
+                break
+
+        if gitconfig_path:
+            config = ConfigParser()
+            config.read(gitconfig_path)
+            if 'user' in config:
+                user_section = config['user']
+                if 'name' in user_section:
+                    default_author = user_section['name']
+                if 'email' in user_section:
+                    default_email = user_section['email']
+
+        print(
+            colored.green(
+                "[*] Enter author name [{}]: ".format(default_author)
+            ),
+            end=""
+        )
+        author = input() or default_author
+
+        print(
+            colored.green(
+                "[*] Enter author email [{}]: ".format(default_email)
+            ),
+            end=""
+        )
+        author_email = input() or default_email
+
+    abs_path = join(dirpath, "starters/setup.py")
+    rel_path = join(dirpath, "setup.py")
 
     try:
         with open(rel_path, "r") as man:
@@ -349,12 +384,12 @@ def create_setup(path, status, test=False):
         doc = doc.replace('[@author_email]', author_email)
 
     try:
-        with open("{}/setup.py".format(path), "w") as wr:
+        with open(join(path, "setup.py"), "w") as wr:
             wr.write(doc)
         status['setup_created'] = True
 
     except IOError:
-        logging.error(colored.red(" setup.py creation failed."))
+        logging.exception(colored.red(" setup.py creation failed."))
 
     return author, version
 
@@ -369,8 +404,8 @@ def mit_lic(path, name, year, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/MIT_LICENSE")
-    rel_path = os.path.join(dirpath, "MIT_LICENSE")
+    abs_path = join(dirpath, "starters/MIT_LICENSE")
+    rel_path = join(dirpath, "MIT_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -378,12 +413,12 @@ def mit_lic(path, name, year, status):
     data = data.replace('[@year]', year)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def apa_lic(path, name, year, status):
@@ -396,8 +431,8 @@ def apa_lic(path, name, year, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/APACHE2_LICENSE")
-    rel_path = os.path.join(dirpath, "APACHE2_LICENSE")
+    abs_path = join(dirpath, "starters/APACHE2_LICENSE")
+    rel_path = join(dirpath, "APACHE2_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
@@ -405,12 +440,12 @@ def apa_lic(path, name, year, status):
     data = data.replace('[@year]', year)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def gpl_lic(path, status):
@@ -421,18 +456,18 @@ def gpl_lic(path, status):
     :return: None
     """
 
-    abs_path = os.path.join(dirpath, "starters/GPL_LICENSE")
-    rel_path = os.path.join(dirpath, "GPL_LICENSE")
+    abs_path = join(dirpath, "starters/GPL_LICENSE")
+    rel_path = join(dirpath, "GPL_LICENSE")
 
     data = read_from_paths(rel_path, abs_path)
 
     try:
-        with open("{}/LICENSE".format(path), "w") as fobj:
+        with open(join(path, "LICENSE"), "w") as fobj:
             fobj.write(data)
         status['license_created'] = True
 
     except IOError:
-        logging.error(colored.red(" LICENSE creation failed."))
+        logging.exception(colored.red(" LICENSE creation failed."))
 
 
 def create_license(path, full_name, status):
@@ -498,48 +533,6 @@ def report_status(status):
             print(colored.red("[!] WARN : Task {} failed".format(task)))
 
 
-def is_git_installed():
-    """
-    Check if git is installed and available in the system path
-    :return: True if git is found else False
-    """
-
-    current_dir = os.getcwd()
-
-    if sys.platform.startswith('win'):
-        # Windows specific code
-        if is_64bits:
-            windows_dir = os.path.join(os.environ['WINDIR'], 'SysWOW64')
-        else:
-            windows_dir = os.path.join(os.environ['WINDIR'], 'System32')
-
-        try:
-            full_cmd = '{}\\where.exe git'.format(windows_dir)
-            cmd_result = subprocess.check_output(
-                full_cmd, cwd=current_dir).strip().decode("utf-8")
-            if cmd_result.startswith('INFO'):
-                return False
-            return cmd_result
-        except subprocess.CalledProcessError:
-            return False
-
-    elif sys.platform.startswith('linux'):
-        # Linux specific code
-        try:
-            true_cmd_result = subprocess.check_output(['which', 'git'])
-            cmd_result = true_cmd_result.decode("utf-8").rstrip()
-        except subprocess.CalledProcessError:
-            cmd_result = ""
-
-        if 'no git in' in cmd_result or not cmd_result:
-            return False
-
-        return cmd_result
-
-    else:
-        return False
-
-
 def git_init(path, status, silent=False):
     """
     Initialize a git repository at path (searches for git in system path)
@@ -549,16 +542,19 @@ def git_init(path, status, silent=False):
     :return: True or False only in silent mode
     """
 
-    git_path = is_git_installed()
+    git_path = shutil.which('git')
 
     if silent:
-        command = [git_path, 'init']
-        try:
-            subprocess.check_output(command, cwd=path).decode('utf-8')
-        except subprocess.CalledProcessError:
-            return False
+        if git_path is not None:
+            command = [git_path, 'init']
+            try:
+                subprocess.check_output(command, cwd=path).decode('utf-8')
+            except subprocess.CalledProcessError:
+                return False
+            else:
+                return True
         else:
-            return True
+            return False
 
     if git_path:
         print(colored.green('[*] Do you want to initialize a Git repository? '
@@ -629,10 +625,10 @@ def venv_init(path, status, silent=False):
             print(colored.green('[*] Enter a name for the virtual '
                                 'environment: '), end="")
             venv_name = input()
-            command.append("{}/{}".format(path, venv_name))
+            command.append(join(path, venv_name))
             subprocess.check_output(command).decode("utf-8")
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logging.exception(e)
         else:
             print(colored.green("[*] Virtual environment setup complete"))
             status['venv_created'] = True
@@ -666,8 +662,8 @@ def sphinx_init(path, author, version, status, silent=False):
         if out.startswith('sphinx-quickstart'):
             is_sphinx = True
     except subprocess.CalledProcessError:
-        logging.error(colored.red("[!] Sphinx could not be detected "
-                                  "or executed."))
+        logging.exception(colored.red("[!] Sphinx could not be detected "
+                                      "or executed."))
         colored.red("[!] Sphinx could not be detected or executed.")
         print(colored.yellow('[>] Skipping sphinx-docs initialization'))
 
@@ -695,7 +691,7 @@ def sphinx_init(path, author, version, status, silent=False):
                        '-a', author, '-v', version]
             subprocess.check_output(command, cwd=path).decode("utf-8")
         except subprocess.CalledProcessError as e:
-            logging.error(e)
+            logging.exception(e)
             print(colored.red("[!] Sphinx build failed : {}".format(e)))
         else:
             print(colored.green("[*] Sphinx documentation setup complete"))
